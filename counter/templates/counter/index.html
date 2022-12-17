@@ -13,6 +13,7 @@
 <div style="display: flex;justify-content: center;align-items: center; margin: 20px;">
 
   <h1>Auto Trender</h1>
+  <!-- <h2>{{mydata}}</h2> -->
 </div>
     <div class="container">
 
@@ -30,15 +31,17 @@
           </tr>
         </thead>
         <tbody>
+          {% for record in mydata %}
           <tr>
-            <th scope="row">{{dtobj_india}}</th>
-            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{ tol_CE_vol }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ tol_CE_vol }}</td>{% endif %}
-            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{ tol_PE_vol }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ tol_PE_vol }}</td>{% endif %}
-            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{diff}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{diff}}</td>{% endif %}
-            {% if pcr < 1 %} <td style="background-color: red;">{{ pcr }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ pcr }}</td>{% endif %}
-            {% if pcr < 1 %} <td style="background-color: red;">SELL</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">BUY</td>{% endif %}
-            <td>{{nifty_val}}</td>
+            <th scope="row">{{record.time}}</th>
+            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{ record.call }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.call }}</td>{% endif %}
+            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{ record.put }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.put }}</td>{% endif %}
+            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{record.diff}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{record.diff}}</td>{% endif %}
+            {% if  record.pcr < 1 %} <td style="background-color: red;">{{ record.pcr|floatformat:2 }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.pcr|floatformat:2 }}</td>{% endif %}
+            {% if record.pcr < 1 %} <td style="background-color: red;">{{record.option_signal}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{record.option_signal}}</td>{% endif %}
+            <td>{{record.price}}</td>
           </tr>
+          {% endfor %}
           
         </tbody>
       </table>

@@ -8,67 +8,14 @@ from django.template import loader
 import datetime as dt
 import datetime
 import pytz
-import schedule
 import time
-
-
-
 
 def index(request):
 
-    dtobj1 = datetime.datetime.utcnow()  # utcnow class method
-    print(dtobj1)
 
-    dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
+    mydata = PCR_data.objects.all().values()
 
-    # print(pytz.all_timezones) => To see all timezones
-    dtobj_india = dtobj3.astimezone(
-        pytz.timezone("Asia/Calcutta"))  # astimezone method
-    print(dtobj_india)
-
-    url = 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY'
-    headers = {
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
-        'accept-encoding': 'gzip, deflate, br',
-        'accept-language': 'en-US,en;q=0.9'
-    }
-    response = requests.get(url, headers=headers).content
-    data = json.loads(response.decode('utf-8'))
-
-    totCE = data['filtered']['CE']['totOI']
-    totc = data['filtered']['CE']
-    totp = data['filtered']['CE']
-    totPE = data['filtered']['PE']['totOI']
-    tol_PE_vol = data['filtered']['PE']['totVol']
-    tol_CE_vol = data['filtered']['CE']['totVol']
-    nifty_val = 0
-    nifty_val = data['filtered']['data'][0]['PE']['underlyingValue']
-    dtobj_india = dtobj_india.strftime("%H:%M")
-
-    print("dtobj_india", dtobj_india)
-
-    print("nifty_val", nifty_val)
-
-    diff = tol_CE_vol - tol_PE_vol
-
-    print("totCE", totc)
-    print("totPE", tol_PE_vol)
-
-    pcr = tol_PE_vol/tol_CE_vol
-
-    signal = "BUY"
-    if(pcr > 1):
-        signal = "BUY"
-    else:
-        signal = "SELL"
-
-    print('PCR = ', pcr)
-    # context = {'value': counter.value}
-    dtobj_indiaa = str(dtobj_india)
-
-
-    context = {'pcr': round(pcr, 1), 'tol_PE_vol': tol_PE_vol, 'tol_CE_vol': tol_CE_vol,
-               'diff': diff, 'nifty_val': nifty_val, 'dtobj_india': dtobj_india}
+    context = {'mydata':mydata}
     return render(request, 'counter/index.html', context)
 
 
@@ -132,8 +79,18 @@ def save_data(symbol):
 #         # task completed; do something to notify yourself
 #         return True
 
-def job():
-    print("I'm working...") 
+# def job():
+
+#     print("I'm working...") 
+
+# s = sched.scheduler(time.time, time.sleep)
+# def do_something(sc): 
+#     print("Doing stuff...")
+#     # do your stuff
+#     sc.enter(6, 1, do_something, (sc,))
+
+# s.enter(6, 1, do_something, (s,))
+# s.run()
 
 # schedule.every(1).seconds.do(job)
 

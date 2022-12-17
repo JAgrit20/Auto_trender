@@ -10,7 +10,7 @@ class PCR_data(models.Model):
     call = models.BigIntegerField() 
     put = models.BigIntegerField() 
     diff = models.BigIntegerField() 
-    pcr = models.BigIntegerField() 
+    pcr = models.FloatField() 
     option_signal = models.CharField(max_length=10) 
     price = models.BigIntegerField() 
 class PCR_data_past(models.Model):
@@ -19,6 +19,6 @@ class PCR_data_past(models.Model):
     call = models.BigIntegerField() 
     put = models.BigIntegerField() 
     diff = models.BigIntegerField() 
-    pcr = models.BigIntegerField() 
+    pcr = models.FloatField() 
     option_signal = models.CharField(max_length=10) 
     price = models.BigIntegerField() 
