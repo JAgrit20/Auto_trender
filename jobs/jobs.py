@@ -13,31 +13,33 @@ import schedule
 import time
 
 def clean_daily_db():
-	dtobj1=datetime.datetime.utcnow()   #utcnow class method
+		print("Clean up")
+		dtobj1=datetime.datetime.utcnow()   #utcnow class method
 
-	print(dtobj1)
-	dtobj3=dtobj1.replace(tzinfo=pytz.UTC) #replace method
+		# print(dtobj1)
+		dtobj3=dtobj1.replace(tzinfo=pytz.UTC) #replace method
 
-	dtobj_india=dtobj3.astimezone(pytz.timezone("Asia/Calcutta")) #astimezone method
-	print(dtobj_india)
-	dtobj_india = dtobj_india.strftime("%H:%M")
-	dtobj_indiaa = str(dtobj_india)
+		dtobj_india=dtobj3.astimezone(pytz.timezone("Asia/Calcutta")) #astimezone method
+		print("India time",dtobj_india)
+		dtobj_india = dtobj_india.strftime("%H:%M")
+		dtobj_indiaa = str(dtobj_india)
 
-	if(dtobj_indiaa == "23:00" or dtobj_indiaa == "09:15" ): 	
-		print("running clean")
-		PCR_data.objects.all().delete()	
+		if(dtobj_indiaa == "23:00" or dtobj_indiaa == "09:15" ): 	
+			print("running clean")
+			PCR_data.objects.all().delete()	
 
 def schedule_api():
 	try:
+		print("Schdule API")
 		dtobj1=datetime.datetime.utcnow()   #utcnow class method
 
-		print(dtobj1)
+		# print(dtobj1)
 		dtobj3=dtobj1.replace(tzinfo=pytz.UTC) #replace method
 
 
 		#print(pytz.all_timezones) => To see all timezones
 		dtobj_india=dtobj3.astimezone(pytz.timezone("Asia/Calcutta")) #astimezone method
-		print(dtobj_india)
+		print("India time data_add",dtobj_india)
 
 
 
@@ -65,7 +67,7 @@ def schedule_api():
 
 		pcr = tol_PE_vol/tol_CE_vol
 
-		print("PCER",pcr)
+		# print("PCER",pcr)
 		signal = "BUY"
 		if(pcr > 1):
 			signal = "BUY"
