@@ -67,7 +67,7 @@ def schedule_api():
 
 		pcr = tol_PE_vol/tol_CE_vol
 
-		# print("PCER",pcr)
+		print("PCR",pcr)
 		signal = "BUY"
 		if(pcr > 1):
 			signal = "BUY"
@@ -75,13 +75,15 @@ def schedule_api():
 			signal = "SELL"
 		pcr_data_entry = PCR_data(time=dtobj_indiaa, call=tol_CE_vol, put=tol_PE_vol,
 								diff=diff, pcr=pcr, price=nifty_val, option_signal=signal)
-		pcr_data_entry = PCR_data_past(time=dtobj_indiaa, call=tol_CE_vol, put=tol_PE_vol,
+		pcr_data_entry2 = PCR_data_past(time=dtobj_indiaa, call=tol_CE_vol, put=tol_PE_vol,
 								diff=diff, pcr=pcr, price=nifty_val, option_signal=signal)
 
 		ans = pcr_data_entry.save()
+		ans1 = pcr_data_entry2.save()
+		print("saving data")
 		# print("ans", ans)
 
-	except:
-		print("something went wrong")
+	except Exception as e:
+		print("something went wrong",e)
 
 		#77779
