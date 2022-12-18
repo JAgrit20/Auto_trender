@@ -66,6 +66,7 @@ def schedule_api():
 		diff = tol_CE_vol - tol_PE_vol
 
 		pcr = tol_PE_vol/tol_CE_vol
+		pcrOI = totPE/totCE
 
 		print("PCR",pcr)
 		signal = "BUY"
@@ -73,9 +74,9 @@ def schedule_api():
 			signal = "BUY"
 		else:
 			signal = "SELL"
-		pcr_data_entry = PCR_data(time=dtobj_indiaa, call=tol_CE_vol, put=tol_PE_vol,
+		pcr_data_entry = PCR_data(time=dtobj_indiaa, call=tol_CE_vol, put=tol_PE_vol,pcrOI=pcrOI,
 								diff=diff, pcr=pcr, price=nifty_val, option_signal=signal)
-		pcr_data_entry2 = PCR_data_past(time=dtobj_indiaa, call=tol_CE_vol, put=tol_PE_vol,
+		pcr_data_entry2 = PCR_data_past(time=dtobj_indiaa, call=tol_CE_vol, put=tol_PE_vol,pcrOI=pcrOI,
 								diff=diff, pcr=pcr, price=nifty_val, option_signal=signal)
 
 		ans = pcr_data_entry.save()

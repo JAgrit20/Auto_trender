@@ -27,6 +27,7 @@
             <th  scope="col">Put</th>
             <th  scope="col">Diff</th>
             <th  scope="col">PCR</th>
+            <th  scope="col">PCR (OI)</th>
             <th  scope="col">Option Signal</th>
             <th  scope="col">Price</th>
           </tr>
@@ -39,6 +40,7 @@
             {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{ record.put }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.put }}</td>{% endif %}
             {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{record.diff}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{record.diff}}</td>{% endif %}
             {% if  record.pcr < 1 %} <td style="background-color: red;">{{ record.pcr|floatformat:2 }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.pcr|floatformat:2 }}</td>{% endif %}
+            {% if  record.pcrOI < 1 %} <td style="background-color: red;">{{ record.pcrOI|floatformat:2 }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.pcrOI|floatformat:2 }}</td>{% endif %}
             {% if record.pcr < 1 %} <td style="background-color: red;">{{record.option_signal}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{record.option_signal}}</td>{% endif %}
             <td>{{record.price}}</td>
           </tr>
