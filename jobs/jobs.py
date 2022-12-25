@@ -24,9 +24,9 @@ def clean_daily_db():
 		dtobj_india = dtobj_india.strftime("%H:%M")
 		dtobj_indiaa = str(dtobj_india)
 
-		if(dtobj_indiaa == "23:00" or dtobj_indiaa == "09:15" ): 	
+		if(dtobj_indiaa == "23:00" or dtobj_indiaa == "09:15" ):
 			print("running clean")
-			PCR_data.objects.all().delete()	
+			PCR_data.objects.all().delete()
 
 def schedule_api():
 	try:
@@ -52,12 +52,38 @@ def schedule_api():
 		response = requests.get(url, headers=headers).content
 		data = json.loads(response.decode('utf-8'))
 
-		totCE = data['filtered']['CE']['totOI']
+		expiry_dt =  data['records']['expiryDates'][0]
+		new_url = 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY'
+
+		headers = {'User-Agent': 'Mozilla/5.0'}
+		page = requests.get(new_url,headers=headers)
+		dajs = json.loads(page.text)
+
+
+		ce_values = [data['CE'] for data in dajs['records']['data'] if "CE" in data and data['expiryDate'] == expiry_dt]
+		pe_values = [data['PE'] for data in dajs['records']['data'] if "PE" in data and data['expiryDate'] == expiry_dt]
+		ce_dt = pd.DataFrame(ce_values).sort_values(['strikePrice'])
+
+
+		pe_dt = pd.DataFrame(pe_values).sort_values(['strikePrice'])
+
+		print(ce_dt.columns.tolist())
+
+		totCE = ce_dt['openInterest'].sum()
+		print("openInterest",totCE)
+		tol_CE_vol = ce_dt['totalTradedVolume'].sum()
+		print("totalTradedVolume",tol_CE_vol)
+		totPE = pe_dt['openInterest'].sum()
+		print("openInterest",totPE)
+		tol_PE_vol = pe_dt['totalTradedVolume'].sum()
+		print("totalTradedVolume",tol_PE_vol)
+
+		# totCE = data['filtered']['CE']['totOI']
 		totc = data['filtered']['CE']
 		totp = data['filtered']['CE']
-		totPE = data['filtered']['PE']['totOI']
-		tol_PE_vol = data['filtered']['PE']['totVol']
-		tol_CE_vol = data['filtered']['CE']['totVol']
+		# totPE = data['filtered']['PE']['totOI']
+		# tol_PE_vol = data['filtered']['PE']['totVol']
+		# tol_CE_vol = data['filtered']['CE']['totVol']
 		nifty_val = 0
 		nifty_val = data['filtered']['data'][0]['PE']['underlyingValue']
 		dtobj_india = dtobj_india.strftime("%H:%M")

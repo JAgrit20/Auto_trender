@@ -16,12 +16,31 @@
   <h1>Auto Trender</h1>
   <!-- <h2>{{mydata}}</h2> -->
 </div>
+<div class=" row container justify-content-center m-2">
+  <div class="col-4">
+    <form>
+
+    <select id="question-subject" class="form-control-sm custom-select" onChange="form.submit();" action="/" method="post" name="expiry">
+    <option selected disabled>Choose a Expiry</option>
+    {% for subject in exp_date%}
+    <option value="{{ forloop.counter }}" >{{subject}}</option>
+    {% endfor %}
+    </select>
+  </form>
+
+  </div>
+  <div class="col-6">
+  <h3>Selected Expiry: {{selected_exp}} </h3>
+  </div>
+  </div>
     <div class="container">
+      <!-- {{exp_date}} -->
+
 
       <table class="table table-bordered table-dark">
         <thead>
           <tr>
-    
+
             <th  scope="col">Time</th>
             <th  scope="col">Call  </th>
             <th  scope="col">Put</th>
@@ -51,13 +70,13 @@
             <td>{{record.price}}</td>
           </tr>
           {% endfor %}
-          
+
         </tbody>
       </table>
     </div>
 
 
-  
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

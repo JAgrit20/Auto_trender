@@ -13,9 +13,31 @@ import time
 def index(request):
 
 
-    mydata = PCR_data.objects.all().values()
 
-    context = {'mydata':mydata}
+    mydata = PCR_data.objects.all().values()
+    url = 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY'
+    headers = {
+    'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
+    'accept-encoding' : 'gzip, deflate, br',
+    'accept-language' : 'en-US,en;q=0.9'
+    }
+    response = requests.get(url, headers=headers).content
+
+    data = json.loads(response.decode('utf-8'))
+    nifty_exp_date = data['records']['expiryDates']
+    if(request.GET):
+        print("Get dat",(request.GET['expiry']))
+        ind = int(request.GET['expiry'])
+        selected_exp =  data['records']['expiryDates'][ind-1]
+
+    else:
+        selected_exp =  data['records']['expiryDates'][0]
+        print("running else" )
+
+    print("nif",nifty_exp_date)
+
+    context = {'mydata':mydata,
+                        'exp_date':nifty_exp_date, 'selected_exp':selected_exp}
     return render(request, 'counter/index.html', context)
 
 
@@ -25,6 +47,7 @@ def save_data(symbol):
     print(dtobj1)
 
     dtobj3=dtobj1.replace(tzinfo=pytz.UTC) #replace method
+
 
 
     #print(pytz.all_timezones) => To see all timezones
@@ -41,13 +64,34 @@ def save_data(symbol):
     }
     response = requests.get(url, headers=headers).content
     data = json.loads(response.decode('utf-8'))
+    expiry_dt =  data['records']['expiryDates'][0]
+
+    ce_values = [data['CE'] for data in dajs['records']['data'] if "CE" in data and data['expiryDate'] == expiry_dt]
+    pe_values = [data['PE'] for data in dajs['records']['data'] if "PE" in data and data['expiryDate'] == expiry_dt]
+
+    ce_dt = pd.DataFrame(ce_values).sort_values(['strikePrice'])
+    pe_dt = pd.DataFrame(pe_values).sort_values(['strikePrice'])
+
+
+    # print(ce_dt)
+    print(ce_dt.columns.tolist())
+
+    Total = ce_dt['openInterest'].sum()
+    print("openInterest",Total)
+    tol_CE_vol = ce_dt['totalTradedVolume'].sum()
+    print("totalTradedVolume",tol_PE_vol)
+
+    Total3 = pe_dt['openInterest'].sum()
+    print("openInterest",Total3)
+    tol_PE_vol = pe_dt['totalTradedVolume'].sum()
+    print("totalTradedVolume",tol_PE_vol)
 
     totCE = data['filtered']['CE']['totOI']
     totc = data['filtered']['CE']
     totp = data['filtered']['CE']
     totPE = data['filtered']['PE']['totOI']
-    tol_PE_vol = data['filtered']['PE']['totVol']
-    tol_CE_vol = data['filtered']['CE']['totVol']
+    # tol_PE_vol = data['filtered']['PE']['totVol']
+    # tol_CE_vol = data['filtered']['CE']['totVol']
     nifty_val = 0
     nifty_val = data['filtered']['data'][0]['PE']['underlyingValue']
     dtobj_india = dtobj_india.strftime("%H:%M")
@@ -70,6 +114,26 @@ def save_data(symbol):
 
     return HttpResponse("done")
 
+def fetch_oi(expiry_dt):
+    ce_values = [data['CE'] for data in dajs['records']['data'] if "CE" in data and data['expiryDate'] == expiry_dt]
+    pe_values = [data['PE'] for data in dajs['records']['data'] if "PE" in data and data['expiryDate'] == expiry_dt]
+
+    ce_dt = pd.DataFrame(ce_values).sort_values(['strikePrice'])
+    pe_dt = pd.DataFrame(pe_values).sort_values(['strikePrice'])
+
+    # print(ce_dt)
+    print(ce_dt.columns.tolist())
+
+    Total = ce_dt['openInterest'].sum()
+    print("openInterest",Total)
+    Total2 = ce_dt['totalTradedVolume'].sum()
+    print("totalTradedVolume",Total2)
+
+    Total3 = pe_dt['openInterest'].sum()
+    print("openInterest",Total3)
+    Total4 = pe_dt['totalTradedVolume'].sum()
+    print("totalTradedVolume",Total4)
+
 # @app.task
 # def check_shut_down():
 #     if not job():
@@ -81,10 +145,10 @@ def save_data(symbol):
 
 # def job():
 
-#     print("I'm working...") 
+#     print("I'm working...")
 
 # s = sched.scheduler(time.time, time.sleep)
-# def do_something(sc): 
+# def do_something(sc):
 #     print("Doing stuff...")
 #     # do your stuff
 #     sc.enter(6, 1, do_something, (sc,))
@@ -96,4 +160,4 @@ def save_data(symbol):
 
 # while True:
 #     schedule.run_pending()
-#     time.sleep(1) 
+#     time.sleep(1)
