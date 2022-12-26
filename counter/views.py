@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Counter, PCR_data
+from .models import Counter, PCR_data,Telegram_data
 from django.http import HttpResponse
 import json
 import requests
@@ -15,31 +15,39 @@ def index(request):
 
 
     mydata = PCR_data.objects.all().values()
-    url = 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY'
-    headers = {
-    'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
-    'accept-encoding' : 'gzip, deflate, br',
-    'accept-language' : 'en-US,en;q=0.9'
-    }
-    response = requests.get(url, headers=headers).content
+    # url = 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY'
+    # headers = {
+    # 'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
+    # 'accept-encoding' : 'gzip, deflate, br',
+    # 'accept-language' : 'en-US,en;q=0.9'
+    # }
+    # response = requests.get(url, headers=headers).content
+    #
+    # data = json.loads(response.decode('utf-8'))
+    # nifty_exp_date = data['records']['expiryDates']
+    # if(request.GET):
+    #     print("Get dat",(request.GET['expiry']))
+    #     ind = int(request.GET['expiry'])
+    #     selected_exp =  data['records']['expiryDates'][ind-1]
+    #
+    # else:
+    #     selected_exp =  data['records']['expiryDates'][0]
+    #     print("running else" )
+    #
+    # print("nif",nifty_exp_date)
 
-    data = json.loads(response.decode('utf-8'))
-    nifty_exp_date = data['records']['expiryDates']
-    if(request.GET):
-        print("Get dat",(request.GET['expiry']))
-        ind = int(request.GET['expiry'])
-        selected_exp =  data['records']['expiryDates'][ind-1]
+    context = {'mydata':mydata   }
 
-    else:
-        selected_exp =  data['records']['expiryDates'][0]
-        print("running else" )
 
-    print("nif",nifty_exp_date)
-
-    context = {'mydata':mydata,
-                        'exp_date':nifty_exp_date, 'selected_exp':selected_exp}
     return render(request, 'counter/index.html', context)
 
+def strategy_2(request):
+
+    mydata = Telegram_data.objects.all().values()
+    context = {'mydata':mydata   }
+
+
+    return render(request, 'counter/15min_ind.html', context)
 
 def save_data(symbol):
 

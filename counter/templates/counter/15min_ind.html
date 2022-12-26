@@ -1,0 +1,65 @@
+<!-- <h3>Hello, this is a simple Django webpage.</h3> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="60" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Auto trender</title>
+  </head>
+  <body>
+<!-- <p>There have been {{ totPE2 }} views.</p> -->
+<div style="display: flex;justify-content: center;align-items: center; margin: 20px;">
+
+  <h1>Strategy 2</h1>
+  <!-- <h2>{{mydata}}</h2> -->
+</div>
+<div style="display: flex;justify-content: center;align-items: center; margin: 20px;">
+
+  <a href="/">Strategy 1</a>
+
+  <!-- <h2>{{mydata}}</h2> -->
+</div>
+
+    <div class="container">
+
+      <table class="table table-bordered table-dark">
+        <thead>
+          <tr>
+            <th  scope="col">Time</th>
+            <th  scope="col">Nifty Previous value  </th>
+            <th  scope="col">Nifty new value  </th>
+            <th  scope="col">Count</th>
+            <th  scope="col">RSI</th>
+            <th  scope="col">Candle color</th>
+            <th  scope="col">Final Signal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in mydata %}
+          <tr>
+            <th scope="row">{{record.time}}</th>
+            {% if Nifty_prev < 8 %} <td style="background-color: red;">{{ record.Nifty_prev }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.Nifty_prev }}</td>{% endif %}
+            {% if Nifty_new < Nifty_prev %} <td style="background-color: red;">{{ record.Nifty_new }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.Nifty_new }}</td>{% endif %}
+            {% if record.Count <= 10 %} <td style="background-color: red;">{{record.Count}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{record.Count}}</td>{% endif %}
+            {% if  record.RSI < 1 %} <td style="background-color: red;">{{ record.RSI }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.RSI }}</td>{% endif %}
+            {% if Color_code < 0 %} <td style="background-color: red;">{{ record.Color_code }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.Color_code }}</td>{% endif %}
+            {% if Color_code < 0 %} <td style="background-color: red;">{{ record.final_signal }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.final_signal }}</td>{% endif %}
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>
