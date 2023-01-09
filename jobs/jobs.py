@@ -11,6 +11,10 @@ import datetime
 import pytz
 import schedule
 import time
+import pandas as pd
+import datetime
+
+
 
 
 def clean_daily_db():
@@ -302,17 +306,14 @@ def getting_btc_data():
 		# price = json.loads(response.decode('utf-8'))
 		# print("price",price)
 		# dajs = json.loads(page.text)
-
 		
 
-		
+		# df = pd.DataFrame(list(BTC_Data.objects.filter(date__gte=datetime.datetime(2012, 5, 1)).values()))
 
-		# print("PCR", pcr)
-		# signal = "BUY"
-		# if(pcr > 1):
-		# 	signal = "BUY"
-		# else:
-		# 	signal = "SELL"
+		# limit which fields
+		# df = pd.DataFrame(list(BlogPost.objects.all().values('author', 'date', 'slug')))
+
+		
 
 		pcr_data_entry = BTC_Data(time=dtobj_indiaa, RSI=rsi,SMA=sma,price=0 )
 

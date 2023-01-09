@@ -23,36 +23,76 @@
   <!-- <h2>{{mydata}}</h2> -->
 </div>
 
-    <div class="container">
+    <!-- <div class="container">
 
       <table class="table table-bordered table-dark">
         <thead>
           <tr>
             <th  scope="col">Time</th>
-            <th  scope="col">Nifty Previous value  </th>
-            <th  scope="col">Nifty new value  </th>
-            <th  scope="col">Count</th>
+            <th  scope="col">Price  </th>
+            <th  scope="col">sma</th>
             <th  scope="col">RSI</th>
-            <th  scope="col">Candle color</th>
-            <th  scope="col">Final Signal</th>
+
           </tr>
         </thead>
         <tbody>
           {% for record in mydata %}
           <tr>
             <th scope="row">{{record.time}}</th>
-            {% if Nifty_prev < 8 %} <td style="background-color: red;">{{ record.Nifty_prev }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.Nifty_prev }}</td>{% endif %}
-            {% if Nifty_new < Nifty_prev %} <td style="background-color: red;">{{ record.Nifty_new }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.Nifty_new }}</td>{% endif %}
-            {% if record.Count <= 10 %} <td style="background-color: red;">{{record.Count}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{record.Count}}</td>{% endif %}
-            {% if  record.RSI < 1 %} <td style="background-color: red;">{{ record.RSI }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.RSI }}</td>{% endif %}
-            {% if Color_code < 0 %} <td style="background-color: red;">{{ record.Color_code }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.Color_code }}</td>{% endif %}
-            {% if Color_code < 0 %} <td style="background-color: red;">{{ record.final_signal }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.final_signal }}</td>{% endif %}
+            {% if Nifty_new < Nifty_prev %} <td style="background-color: red;">{{ record.price }}</td> {% else %}    <td style="background-color: rgb(90, 240, 90);">{{ record.Nifty_new }}</td>{% endif %}
+            {% if record.Count <= 10 %} <td style="background-color: red;">{{record.sma}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{record.Count}}</td>{% endif %}
+            {% if  record.RSI < 1 %} <td style="background-color: red;">{{ record.RSI }}</td> {% else %}    <td style="background-color: rgb(2, 93, 2);">{{ record.RSI }}</td>{% endif %}
           </tr>
           {% endfor %}
 
         </tbody>
       </table>
-    </div>
+    </div> -->
+
+    
+<!-- Write HTML code here -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>TableView - Startup</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+  
+<div class="container">
+  <h2 class="text-center"><u>RSI and SMA</u></h2><br>            
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>time</th>
+        <th>RSI</th>
+        <th>SMA_1_min </th>
+        <th>SMA_5_min</th>
+        <th>SMA_15_min</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!-- jinja2 Technique -->
+    {% if d %}  
+    {% for i in d reversed %}
+      <tr>
+        <td>{{i.time}}</td>
+        <td>{{i.RSI}}</td>
+        <td>{{i.SMA_1}}</td>
+        <td>{{i.SMA_5}}</td>
+        <td>{{i.SMA_15}}</td>
+      </tr>
+    {% endfor %}
+    {% endif %}
+    </tbody>
+  </table>
+</div>
+  
 
 
 

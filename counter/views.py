@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Counter, PCR_data,Telegram_data
+from .models import Counter, PCR_data,Telegram_data,BTC_Data
 from django.http import HttpResponse
 import json
 import requests
@@ -43,8 +43,24 @@ def index(request):
 
 def strategy_2(request):
 
-    mydata = Telegram_data.objects.all().values()
-    context = {'mydata':mydata   }
+    mydata = BTC_Data.objects.all().values()
+    df = pd.DataFrame(list(BTC_Data.objects.all().order_by('id').values()))
+
+    # df['SMA_10'] = df['RSI'].rolling(window=10).mean()
+# print the first 15 rows of data
+    # print(df.head(15))
+    import pandas_ta as ta
+# Add indicators, using data from before
+    df.ta.sma(close='RSI', length=1, append=True)
+    df.ta.sma(close='RSI', length=5, append=True)
+    df.ta.sma(close='RSI', length=15, append=True)
+    # df.ta.sma(close='RSI', length=20, append=True)
+    print(df)
+    json_records = df.reset_index().to_json(orient ='records')
+    data = []
+    data = json.loads(json_records)
+    context = {'mydata':mydata, 'd':data }
+
 
 
     return render(request, 'counter/15min_ind.html', context)
