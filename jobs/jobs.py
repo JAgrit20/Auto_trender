@@ -13,6 +13,7 @@ import schedule
 import time
 import pandas as pd
 import datetime
+import pandas_ta as ta
 
 
 
@@ -282,7 +283,7 @@ def getting_btc_data():
 			pytz.timezone("Asia/Calcutta"))  # astimezone method
 		print("India time data_add", dtobj_india)
 
-		url = 'https://api.taapi.io/rsi?secret=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVlIjoiNjNiYWY4YmFmYzVhOGFkZmVjNGYxZGM4IiwiaWF0IjoxNjczMTk3NzU0LCJleHAiOjMzMTc3NjYxNzU0fQ.GPZ98GEgr2LvgttnFEAlbrxK01qJfjTriiCTjdvNFIE&exchange=binance&symbol=BTC/USDT&interval=1m'
+		url = 'https://api.taapi.io/rsi?secret=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVlIjoiNjNiYjI1ZDBmYzVhOGFkZmVjNTNjNzhmIiwiaWF0IjoxNjczMjA5Mjk2LCJleHAiOjMzMTc3NjczMjk2fQ.uINS1yCmuZW9RTa83rahG9bhYgx7xwt9GRoMzdw_TbQ&exchange=binance&symbol=BTC/USDT&interval=1m'
 
 		headers = {
 			'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
@@ -297,6 +298,21 @@ def getting_btc_data():
 		rsi = float(data['value'])
 		dtobj_india = dtobj_india.strftime("%H:%M:%S")
 		dtobj_indiaa = str(dtobj_india)
+# Add indicators, using data from before
+		mydata = BTC_Data.objects.all().values()
+		df = pd.DataFrame(list(BTC_Data.objects.all().order_by('id').values()))
+
+		df.ta.sma(close='RSI', length=7, append=True)
+
+		# df.ta.sma(close='RSI', length=20, append=True)
+		
+		json_records = df.reset_index().to_json(orient ='records')
+		data = []
+		data = json.loads(json_records)
+		print("dfff",df)
+		print(df['SMA_7'].loc[df.index[-1]])
+		sma = (df['SMA_7'].loc[df.index[-1]])
+
 
 		# expiry_dt = data['records']['expiryDates'][0]
 		# new_url = 'https://api.taapi.io/sma?secret=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVlIjoiNjNiYjI1ZDBmYzVhOGFkZmVjNTNjNzhmIiwiaWF0IjoxNjczMjA5Mjk2LCJleHAiOjMzMTc3NjczMjk2fQ.uINS1yCmuZW9RTa83rahG9bhYgx7xwt9GRoMzdw_TbQ&exchange=binance&symbol=BTC/USDT&interval=1h'

@@ -10,11 +10,46 @@ import datetime
 import pytz
 import time
 
+
+def Check(request):
+
+    # mydata = BTC_Data.objects.last()
+    # mydata_f = BTC_Data.objects.first()
+
+    field_name = 'SMA'
+    field_name_2 = 'RSI'
+    obj = BTC_Data.objects.first()
+    field_value_sma = getattr(obj, field_name)
+    field_value_rsi = getattr(obj, field_name_2)
+    print("field_value",field_value_sma)
+    print("field_value_2",field_value_rsi)
+    field_value_rsi = float(field_value_rsi)
+    field_value_sma = float(field_value_sma)
+
+    latest_second = BTC_Data.objects.filter().order_by('-pk')[1]
+    field_value_sma_2 = getattr(latest_second, field_name)
+    field_value_rsi_2 = getattr(latest_second, field_name_2)
+    print("field_value",field_value_sma_2)
+    print("field_value_2",field_value_rsi_2)
+    field_value_rsi_2 = float(field_value_rsi_2)
+    field_value_sma_2 = float(field_value_sma_2)
+
+    # 1 == buy
+    # 0 == sell
+    # 2 == null
+    ans = 2
+    if(field_value_rsi<=40 and (field_value_rsi - field_value_rsi_2)>0 and field_value_rsi <=60   ):
+        ans = 1
+    if (field_value_rsi >=60 and (field_value_rsi - field_value_rsi_2)<0 and field_value_rsi <=40 ):
+        ans = 0
+
+    return HttpResponse(json.dumps({'decision':ans}))
 def index(request):
 
 
 
     mydata = PCR_data.objects.all().values()
+    
     # url = 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY'
     # headers = {
     # 'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
@@ -46,14 +81,15 @@ def strategy_2(request):
     mydata = BTC_Data.objects.all().values()
     df = pd.DataFrame(list(BTC_Data.objects.all().order_by('id').values()))
 
+
     # df['SMA_10'] = df['RSI'].rolling(window=10).mean()
 # print the first 15 rows of data
     # print(df.head(15))
     import pandas_ta as ta
 # Add indicators, using data from before
-    df.ta.sma(close='RSI', length=1, append=True)
-    df.ta.sma(close='RSI', length=5, append=True)
-    df.ta.sma(close='RSI', length=15, append=True)
+
+    df.ta.sma(close='RSI', length=7, append=True)
+
     # df.ta.sma(close='RSI', length=20, append=True)
     print(df)
     json_records = df.reset_index().to_json(orient ='records')
