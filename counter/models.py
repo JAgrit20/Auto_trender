@@ -49,3 +49,9 @@ class PCR_data_past(models.Model):
     pcrOI = models.FloatField()
     option_signal = models.CharField(max_length=10)
     price = models.BigIntegerField()
+class BTC_Data(models.Model):
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+    time = models.CharField(max_length=10)
+    RSI = models.FloatField()
+    SMA = models.FloatField(blank=True)
+    price = models.BigIntegerField(blank=True)
