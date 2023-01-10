@@ -18,7 +18,9 @@ def Check(request):
 
     field_name = 'SMA'
     field_name_2 = 'RSI'
-    obj = BTC_Data.objects.first()
+    field_name_id = 'id'
+    obj = BTC_Data.objects.last()
+    field_value_id = getattr(obj, field_name_id)
     field_value_sma = getattr(obj, field_name)
     field_value_rsi = getattr(obj, field_name_2)
     print("field_value",field_value_sma)
@@ -38,12 +40,51 @@ def Check(request):
     # 0 == sell
     # 2 == null
     ans = 2
+    analysis = f'''\n  -------1 BUY--------------- \n "field_value_rsi<=40",{field_value_rsi<=40,field_value_rsi} \n
+    ("(field_value_rsi - field_value_rsi_2)>0",{(field_value_rsi - field_value_rsi_2)>0},{field_value_rsi - field_value_rsi_2} \n \n
+    ("( field_value_rsi <=60 ", {field_value_rsi <=60 ,field_value_rsi} )
+    ("-------BUY---------------")
+        ("\n")
+                ("-------0 sell---------------")
+    ("field_value_rsi >=60",{field_value_rsi<=40, field_value_rsi} ) \n
+    ("(field_value_rsi - field_value_rsi_2)>0",{(field_value_rsi - field_value_rsi_2)>0}{field_value_rsi - field_value_rsi_2}) \n
+    ("( field_value_rsi <=60 ", {field_value_rsi <=60,field_value_rsi} ) \n
+    ("-------0 Sell ----------------")\n
+
+
+    '''
+    print("analysis",analysis)
+    try:
+
+        BTC_Data.objects.filter(id =field_value_id).update(Analysis = analysis)
+        print("saved analysis in id",field_value_id)
+    except Exception as e:
+        print("something went wrong while adding analysis", e)
+
+    print("-------1----------------")
+    print("field_value_rsi<=40",field_value_rsi<=40,field_value_rsi)
+    print("(field_value_rsi - field_value_rsi_2)>0",(field_value_rsi - field_value_rsi_2)>0,field_value_rsi - field_value_rsi_2)
+    print("( field_value_rsi <=60 ", field_value_rsi <=60 ,field_value_rsi )
+    print("-------1----------------")
+    print("\n")
+
+    print("-------2----------------")
+    print("field_value_rsi >=60",field_value_rsi<=40, field_value_rsi )
+    print("(field_value_rsi - field_value_rsi_2)>0",(field_value_rsi - field_value_rsi_2)>0,field_value_rsi - field_value_rsi_2)
+    print("( field_value_rsi <=60 ", field_value_rsi <=60,field_value_rsi )
+    print("-------2----------------")
+
     if(field_value_rsi<=40 and (field_value_rsi - field_value_rsi_2)>0 and field_value_rsi <=60   ):
         ans = 1
+    print("-------2----------------")
+    print("field_value_rsi >=60",field_value_rsi<=40, field_value_rsi )
+    print("(field_value_rsi - field_value_rsi_2)>0",(field_value_rsi - field_value_rsi_2)>0,field_value_rsi - field_value_rsi_2)
+    print("( field_value_rsi <=60 ", field_value_rsi <=60,field_value_rsi )
+    print("-------2----------------")
     if (field_value_rsi >=60 and (field_value_rsi - field_value_rsi_2)<0 and field_value_rsi <=40 ):
         ans = 0
 
-    return HttpResponse(json.dumps({'decision':ans}))
+    return HttpResponse(json.dumps({'decision':ans, 'analysis':analysis}))
 def index(request):
 
 

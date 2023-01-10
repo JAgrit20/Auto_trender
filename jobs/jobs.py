@@ -272,7 +272,7 @@ def schedule_api():
 
 def getting_btc_data():
 	try:
-		print("getting_btc_data")
+		# print("getting_btc_data")
 		dtobj1 = datetime.datetime.utcnow()  # utcnow class method
 
 		# print(dtobj1)
@@ -281,7 +281,7 @@ def getting_btc_data():
 		# print(pytz.all_timezones) => To see all timezones
 		dtobj_india = dtobj3.astimezone(
 			pytz.timezone("Asia/Calcutta"))  # astimezone method
-		print("India time data_add", dtobj_india)
+		# print("India time data_add", dtobj_india)
 
 		url = 'https://api.taapi.io/rsi?secret=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVlIjoiNjNiYjI1ZDBmYzVhOGFkZmVjNTNjNzhmIiwiaWF0IjoxNjczMjA5Mjk2LCJleHAiOjMzMTc3NjczMjk2fQ.uINS1yCmuZW9RTa83rahG9bhYgx7xwt9GRoMzdw_TbQ&exchange=binance&symbol=BTC/USDT&interval=1m'
 
@@ -293,8 +293,8 @@ def getting_btc_data():
 		sma = 0
 		response = requests.get(url, headers=headers).content
 		data = json.loads(response.decode('utf-8'))
-		print("Data2",data)
-		print("Data",data['value'])
+		# print("Data2",data)
+		# print("Data",data['value'])
 		rsi = float(data['value'])
 		dtobj_india = dtobj_india.strftime("%H:%M:%S")
 		dtobj_indiaa = str(dtobj_india)
@@ -309,8 +309,8 @@ def getting_btc_data():
 		json_records = df.reset_index().to_json(orient ='records')
 		data = []
 		data = json.loads(json_records)
-		print("dfff",df)
-		print(df['SMA_7'].loc[df.index[-1]])
+		# print("dfff",df)
+		# print(df['SMA_7'].loc[df.index[-1]])
 		sma = (df['SMA_7'].loc[df.index[-1]])
 
 
@@ -334,7 +334,7 @@ def getting_btc_data():
 		pcr_data_entry = BTC_Data(time=dtobj_indiaa, RSI=rsi,SMA=sma,price=0 )
 
 		ans = pcr_data_entry.save()
-		print("saving data")
+		# print("saving data")
 		# print("ans", ans)
 
 	except Exception as e:

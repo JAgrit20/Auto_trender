@@ -54,4 +54,5 @@ class BTC_Data(models.Model):
     time = models.CharField(max_length=10)
     RSI = models.FloatField()
     SMA = models.FloatField(blank=True)
+    Analysis = models.TextField(blank=True)
     price = models.BigIntegerField(blank=True)
