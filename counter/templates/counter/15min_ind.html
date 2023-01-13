@@ -72,11 +72,14 @@
         <th>time</th>
         <th>RSI</th>
         <!-- <th>SMA_2_min</th>
-        <th>SMA_3_min</th>
-        <th>SMA_4_min</th>
-        <th>SMA_5_min</th>
-        <th>SMA_6_min</th> -->
-        <th>SMA_14_min</th>
+          <th>SMA_3_min</th>
+          <th>SMA_4_min</th>
+          <th>SMA_5_min</th>
+          <th>SMA_6_min</th> -->
+          <!-- <th>SMA_14_min</th> -->
+          <!-- <th>decsion 1 = buy -- 0 sell</th> -->
+          <!-- <th>Analysis</th> -->
+          <th>Signal 1= buy -- 0 sell</th>
         <!-- <th>SMA_8_min</th>
         <th>SMA_9_min</th>
         <th>SMA_10_min</th>
@@ -93,15 +96,19 @@
     <!-- jinja2 Technique -->
     {% if d %}  
     {% for i in d reversed %}
+    <!-- {{i}} -->
       <tr>
         <td>{{i.time}}</td>
         <td>{{i.RSI}}</td>
         <!-- <td>{{i.SMA_2}}</td>
-        <td>{{i.SMA_3}}</td>
-        <td>{{i.SMA_4}}</td>
-        <td>{{i.SMA_5}}</td>
-        <td>{{i.SMA_6}}</td> -->
-        <td>{{i.SMA_7}}</td>
+          <td>{{i.SMA_3}}</td>
+          <td>{{i.SMA_4}}</td>
+          <td>{{i.SMA_5}}</td>
+          <td>{{i.SMA_6}}</td> -->
+          <!-- <td>{{i.SMA_7}}</td> -->
+          <!-- <td>{{i.price}}</td> -->
+          <td>{{i.signal}}</td>
+          <!-- <td>{{i.Analysis}}</td> -->
         <!-- <td>{{i.SMA_8}}</td>
         <td>{{i.SMA_9}}</td>
         <td>{{i.SMA_10}}</td>

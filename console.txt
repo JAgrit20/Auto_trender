@@ -1,0 +1,19 @@
+function fn60sec() {
+    // runs every 60 sec and runs on init.
+    fetch("http://127.0.0.1:8000/check")
+     .then((res) => res.json())
+     .then((data) => {
+        // ans = JSON.parse(data.body)
+       console.log(data.decision);
+           console.log(data.analysis);
+         if(data.decision==1){
+             document.getElementsByClassName("_633ZZh0WP6 deal-button deal-button_up")[0].click();
+         }
+         if(data.decision == 0){
+             
+             document.getElementsByClassName("_633ZZh0WP6 deal-button deal-button_down")[0].click();
+         }
+     });
+}
+fn60sec();
+setInterval(fn60sec, 60*1000);

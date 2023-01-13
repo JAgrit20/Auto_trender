@@ -16,79 +16,80 @@ def Check(request):
     # mydata = BTC_Data.objects.last()
     # mydata_f = BTC_Data.objects.first()
 
-    field_name = 'SMA'
+    field_name = 'signal'
     field_name_2 = 'RSI'
     field_name_id = 'id'
-    obj = BTC_Data.objects.last()
-    field_value_id = getattr(obj, field_name_id)
-    field_value_sma = getattr(obj, field_name)
-    field_value_rsi = getattr(obj, field_name_2)
-    print("field_value",field_value_sma)
-    print("field_value_2",field_value_rsi)
-    field_value_rsi = float(field_value_rsi)
-    field_value_sma = float(field_value_sma)
+    field_name_time = 'time'
 
-    latest_second = BTC_Data.objects.filter().order_by('-pk')[1]
-    field_value_sma_2 = getattr(latest_second, field_name)
-    field_value_rsi_2 = getattr(latest_second, field_name_2)
-    print("field_value",field_value_sma_2)
-    print("field_value_2",field_value_rsi_2)
-    field_value_rsi_2 = float(field_value_rsi_2)
-    field_value_sma_2 = float(field_value_sma_2)
+    obj = BTC_Data.objects.last()
+
+
+    field_value_id = getattr(obj, field_name_id)
+    field_value_time = getattr(obj, field_name_time)
+    field_value_signal = getattr(obj, field_name)
+    field_value_rsi = getattr(obj, field_name_2)
+
+    print("field_value_signal",field_value_signal)
+    print("field_value_rsi",field_value_rsi)
+    print("field_value_time",field_value_time)
+    print("field_value_id",field_value_id)
+
+    # field_value_rsi = float(field_value_rsi)
+    # field_value_sma = float(field_value_sma)
+
+    # latest_second = BTC_Data.objects.filter().order_by('-pk')[1]
+    # field_value_sma_2 = getattr(latest_second, field_name)
+    # field_value_rsi_2 = getattr(latest_second, field_name_2)
+
+    # print("field_value_sma_2",field_value_sma_2)
+    # print("field_value_sma_2",field_value_sma_2)
+    # field_value_rsi_2 = float(field_value_rsi_2)
+    # field_value_sma_2 = float(field_value_sma_2)
 
     # 1 == buy
     # 0 == sell
     # 2 == null
+
     ans = 2
-    analysis = f'''\n  -------1 BUY--------------- \n "field_value_rsi<=40",{field_value_rsi<=40,field_value_rsi} \n
-    ("(field_value_rsi - field_value_rsi_2)>0",{(field_value_rsi - field_value_rsi_2)>0},{field_value_rsi - field_value_rsi_2} \n \n
-    ("( field_value_rsi <=60 ", {field_value_rsi <=60 ,field_value_rsi} )
-    ("-------BUY---------------")
-        ("\n")
-                ("-------0 sell---------------")
-    ("field_value_rsi >=60",{field_value_rsi<=40, field_value_rsi} ) \n
-    ("(field_value_rsi - field_value_rsi_2)>0",{(field_value_rsi - field_value_rsi_2)>0}{field_value_rsi - field_value_rsi_2}) \n
-    ("( field_value_rsi <=60 ", {field_value_rsi <=60,field_value_rsi} ) \n
-    ("-------0 Sell ----------------")\n
+
+#     # ----------------------------------------Logging code-------------------------------
+#     analysis = f'''\n  -------1 BUY {field_value_time}--------------- \n "
+#     field_value_rsi<=40",{field_value_rsi<=40,field_value_rsi} \n
+# field_value_sma <field_value_rsi",{field_value_sma <field_value_rsi} \n
+#     ((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2 )",{(field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2} RSI_latest{field_value_rsi} RSI_Prev {field_value_rsi_2},SMA{field_value_sma} \n 
+#     ("( field_value_rsi <=60 ", {field_value_rsi <=60 ,field_value_rsi} )
+#     ("-------BUY-END--------------")\n
+#     \n
+#     ("-------0 sell {field_value_time}---------------")\n
+#     ("field_value_rsi >=60",{field_value_rsi>=60, field_value_rsi} ) \n
+#     ("field_value_sma <field_value_rsi",{field_value_sma <field_value_rsi} SMA:{field_value_sma}, field_value_rsi:{field_value_rsi}) \n
+#     ("field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2",{(field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2}, RSI_latest{field_value_rsi}, RSI_Prev {field_value_rsi_2},SMA{field_value_sma}) \n
+#     ("( field_value_rsi>=37 ", {field_value_rsi >=37,field_value_rsi} ) \n
+#     ("-------0 Sell----------------")\n  '''
+#         # ----------------------------------------Logging code-------------------------------
+
+    # print("analysis",analysis)
+    # try:
+
+    #     BTC_Data.objects.filter(id =field_value_id).update(Analysis = analysis)
+    #     print("saved analysis in id",field_value_id)
+    # except Exception as e:
+    #     print("something went wrong while adding analysis", e)
 
 
-    '''
-    print("analysis",analysis)
-    try:
-
-        BTC_Data.objects.filter(id =field_value_id).update(Analysis = analysis)
-        print("saved analysis in id",field_value_id)
-    except Exception as e:
-        print("something went wrong while adding analysis", e)
-
-    print("-------1----------------")
-    print("field_value_rsi<=40",field_value_rsi<=40,field_value_rsi)
-    print("(field_value_rsi - field_value_rsi_2)>0",(field_value_rsi - field_value_rsi_2)>0,field_value_rsi - field_value_rsi_2)
-    print("( field_value_rsi <=60 ", field_value_rsi <=60 ,field_value_rsi )
-    print("-------1----------------")
-    print("\n")
-
-    print("-------2----------------")
-    print("field_value_rsi >=60",field_value_rsi<=40, field_value_rsi )
-    print("(field_value_rsi - field_value_rsi_2)>0",(field_value_rsi - field_value_rsi_2)>0,field_value_rsi - field_value_rsi_2)
-    print("( field_value_rsi <=60 ", field_value_rsi <=60,field_value_rsi )
-    print("-------2----------------")
-
-    if(field_value_rsi<=40 and (field_value_rsi - field_value_rsi_2)>0 and field_value_rsi <=60   ):
+    # if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
+    if(field_value_signal == 1):
         ans = 1
-    print("-------2----------------")
-    print("field_value_rsi >=60",field_value_rsi<=40, field_value_rsi )
-    print("(field_value_rsi - field_value_rsi_2)>0",(field_value_rsi - field_value_rsi_2)>0,field_value_rsi - field_value_rsi_2)
-    print("( field_value_rsi <=60 ", field_value_rsi <=60,field_value_rsi )
-    print("-------2----------------")
-    if (field_value_rsi >=60 and (field_value_rsi - field_value_rsi_2)<0 and field_value_rsi <=40 ):
+    # if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+    if( field_value_signal== 0   ):
         ans = 0
+    BTC_Data.objects.filter(id =field_value_id).update(price = ans)
+    
 
-    return HttpResponse(json.dumps({'decision':ans, 'analysis':analysis}))
+
+    return HttpResponse(json.dumps({'decision':ans}))
+
 def index(request):
-
-
-
     mydata = PCR_data.objects.all().values()
     
     # url = 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY'

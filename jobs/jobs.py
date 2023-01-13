@@ -14,7 +14,7 @@ import time
 import pandas as pd
 import datetime
 import pandas_ta as ta
-
+import sys, os
 
 
 
@@ -281,9 +281,9 @@ def getting_btc_data():
 		# print(pytz.all_timezones) => To see all timezones
 		dtobj_india = dtobj3.astimezone(
 			pytz.timezone("Asia/Calcutta"))  # astimezone method
-		# print("India time data_add", dtobj_india)
+		print("India time data_add", dtobj_india)
 
-		url = 'https://api.taapi.io/rsi?secret=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVlIjoiNjNiYjI1ZDBmYzVhOGFkZmVjNTNjNzhmIiwiaWF0IjoxNjczMjA5Mjk2LCJleHAiOjMzMTc3NjczMjk2fQ.uINS1yCmuZW9RTa83rahG9bhYgx7xwt9GRoMzdw_TbQ&exchange=binance&symbol=BTC/USDT&interval=1m'
+		url = 'https://api.taapi.io/rsi?secret=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVlIjoiNjNiZGQyZjRmYzVhOGFkZmVjOWE4YmY2IiwiaWF0IjoxNjczMzg0NjkyLCJleHAiOjMzMTc3ODQ4NjkyfQ.EdXPuHkbcD1G024Pk9Ml0zTzhSfd2Ptbvueyor1Ifw0&exchange=binance&symbol=BTC/USDT&interval=1m'
 
 		headers = {
 			'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
@@ -294,7 +294,7 @@ def getting_btc_data():
 		response = requests.get(url, headers=headers).content
 		data = json.loads(response.decode('utf-8'))
 		# print("Data2",data)
-		# print("Data",data['value'])
+		print("Data",data)
 		rsi = float(data['value'])
 		dtobj_india = dtobj_india.strftime("%H:%M:%S")
 		dtobj_indiaa = str(dtobj_india)
@@ -302,16 +302,35 @@ def getting_btc_data():
 		mydata = BTC_Data.objects.all().values()
 		df = pd.DataFrame(list(BTC_Data.objects.all().order_by('id').values()))
 
+
+		# df.ta.sma(close='RSI', length=3, append=True)
+		# df.ta.sma(close='RSI', length=4, append=True)
+		# df.ta.sma(close='RSI', length=5, append=True)
+		# df.ta.sma(close='RSI', length=6, append=True)
+		# df.ta.sma(close='RSI', length=7, append=True)
+
+		#Create a simple moving average with a 30 day window
+		# SMA_30_pd = SMA_30_pd.DataFrame()('Adj Close').rolling(window=30).mean()
+
 		df.ta.sma(close='RSI', length=7, append=True)
+		# df.ta.sma(close='RSI', length=8, append=True)
+		# df.ta.sma(close='RSI', length=9, append=True)
+		# df.ta.sma(close='RSI', length=10, append=True)
+		# df.ta.sma(close='RSI', length=11, append=True)
+		# df.ta.sma(close='RSI', length=12, append=True)
+		# df.ta.sma(close='RSI', length=13, append=True)
+
+		
 
 		# df.ta.sma(close='RSI', length=20, append=True)
 		
 		json_records = df.reset_index().to_json(orient ='records')
 		data = []
 		data = json.loads(json_records)
-		# print("dfff",df)
+		print("dfff",df)
+		print(df.tail(15))
 		# print(df['SMA_7'].loc[df.index[-1]])
-		sma = (df['SMA_7'].loc[df.index[-1]])
+		sma =0
 
 
 		# expiry_dt = data['records']['expiryDates'][0]
@@ -329,15 +348,22 @@ def getting_btc_data():
 		# limit which fields
 		# df = pd.DataFrame(list(BlogPost.objects.all().values('author', 'date', 'slug')))
 
-		
+		field_name_signal = 'signal'
 
-		pcr_data_entry = BTC_Data(time=dtobj_indiaa, RSI=rsi,SMA=sma,price=0 )
+		obj = BTC_Data.objects.last()
+
+		field_value_signal = getattr(obj, field_name_signal)
+
+		pcr_data_entry = BTC_Data(time=dtobj_indiaa, RSI=rsi,SMA=sma,price=0, signal=field_value_signal)
 
 		ans = pcr_data_entry.save()
-		# print("saving data")
+		print("saving data")
 		# print("ans", ans)
 
 	except Exception as e:
-		print("something went wrong", e)
+		exc_type, exc_obj, exc_tb = sys.exc_info()
+		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+		print(exc_type, fname, exc_tb.tb_lineno)
+		print("something went wrong", e) 
 
 		# 77779
