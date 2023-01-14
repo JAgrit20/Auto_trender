@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '0vti^&v2+8v_=y-don9p_yxa+(%rk^z34s4$m-^8&!u8d2s)3-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 #vALLOWED_HOSTS = ['64.227.144.145','64.227.148.106', 'localhost', '127.0.0.1']
@@ -59,7 +59,9 @@ ALLOWED_HOSTS=['*']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-SECURE_SSL_REDIRECT = False 
+SESSION_COOKIE_SECURE= False 
+CSRF_COOKIE_SECURE = False 
+SECURE_SSL_REDIRECT = False
 
 ROOT_URLCONF = 'cool_counters.urls'
 
