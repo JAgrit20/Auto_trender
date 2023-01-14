@@ -38,7 +38,7 @@ def taskCreate(request):
 	
 	field_name_signal = 'signal'
 	objs = BTC_Data.objects.last()
-	print("request.data",request.data['title'])
+	print("request.data",request.data)
 	if(request.data['title']=="BUY"):
 		objs.signal = 1
 		objs.save()
