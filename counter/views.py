@@ -20,6 +20,7 @@ def Check(request):
     field_name_2 = 'RSI'
     field_name_id = 'id'
     field_name_time = 'time'
+    field_name_signal_adx = 'signal_adx'
 
     obj = BTC_Data.objects.last()
 
@@ -27,7 +28,9 @@ def Check(request):
     field_value_id = getattr(obj, field_name_id)
     field_value_time = getattr(obj, field_name_time)
     field_value_signal = getattr(obj, field_name)
+    field_value_signal = getattr(obj, field_name)
     field_value_rsi = getattr(obj, field_name_2)
+    field_value_signal_adx = getattr(obj, field_name_signal_adx)
 
     print("field_value_signal",field_value_signal)
     print("field_value_rsi",field_value_rsi)
@@ -52,22 +55,6 @@ def Check(request):
 
     ans = 2
 
-#     # ----------------------------------------Logging code-------------------------------
-#     analysis = f'''\n  -------1 BUY {field_value_time}--------------- \n "
-#     field_value_rsi<=40",{field_value_rsi<=40,field_value_rsi} \n
-# field_value_sma <field_value_rsi",{field_value_sma <field_value_rsi} \n
-#     ((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2 )",{(field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2} RSI_latest{field_value_rsi} RSI_Prev {field_value_rsi_2},SMA{field_value_sma} \n 
-#     ("( field_value_rsi <=60 ", {field_value_rsi <=60 ,field_value_rsi} )
-#     ("-------BUY-END--------------")\n
-#     \n
-#     ("-------0 sell {field_value_time}---------------")\n
-#     ("field_value_rsi >=60",{field_value_rsi>=60, field_value_rsi} ) \n
-#     ("field_value_sma <field_value_rsi",{field_value_sma <field_value_rsi} SMA:{field_value_sma}, field_value_rsi:{field_value_rsi}) \n
-#     ("field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2",{(field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2}, RSI_latest{field_value_rsi}, RSI_Prev {field_value_rsi_2},SMA{field_value_sma}) \n
-#     ("( field_value_rsi>=37 ", {field_value_rsi >=37,field_value_rsi} ) \n
-#     ("-------0 Sell----------------")\n  '''
-#         # ----------------------------------------Logging code-------------------------------
-
     # print("analysis",analysis)
     # try:
 
@@ -78,11 +65,12 @@ def Check(request):
 
 
     # if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
-    if(field_value_signal == 1):
+    if(field_value_signal == 1 and field_value_signal_adx == 1 ):
         ans = 1
     # if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
-    if( field_value_signal== 0   ):
+    if( field_value_signal== 0  and field_value_signal_adx ==0   ):
         ans = 0
+        
     BTC_Data.objects.filter(id =field_value_id).update(price = ans)
     
 
@@ -120,7 +108,7 @@ def index(request):
 
 def strategy_2(request):
 
-    mydata = BTC_Data.objects.all().values()
+    mydata = BTC_Data.objects.all()[:10]
     df = pd.DataFrame(list(BTC_Data.objects.all().order_by('id').values()))
 
 
@@ -134,12 +122,10 @@ def strategy_2(request):
 
     # df.ta.sma(close='RSI', length=20, append=True)
     print(df)
-    json_records = df.reset_index().to_json(orient ='records')
+    json_records = df.tail(25).reset_index().to_json(orient ='records')      
     data = []
     data = json.loads(json_records)
     context = {'mydata':mydata, 'd':data }
-
-
 
     return render(request, 'counter/15min_ind.html', context)
 

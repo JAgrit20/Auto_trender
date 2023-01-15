@@ -295,8 +295,10 @@ def getting_btc_data():
 		data = json.loads(response.decode('utf-8'))
 		# print("Data2",data)
 		print("Data",data)
-		rsi = float(data['value'])
+		rsi = float(data['value'])	
+
 		dtobj_india = dtobj_india.strftime("%H:%M:%S")
+
 		dtobj_indiaa = str(dtobj_india)
 # Add indicators, using data from before
 		mydata = BTC_Data.objects.all().values()

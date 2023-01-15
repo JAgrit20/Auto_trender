@@ -79,7 +79,8 @@
           <!-- <th>SMA_14_min</th> -->
           <!-- <th>decsion 1 = buy -- 0 sell</th> -->
           <!-- <th>Analysis</th> -->
-          <th>Signal 1= buy -- 0 sell</th>
+          <th>Signal 1= buy -- 0 sell RSI</th>
+          <th>Signal 1= buy -- 0 sell ADX</th>
         <!-- <th>SMA_8_min</th>
         <th>SMA_9_min</th>
         <th>SMA_10_min</th>
@@ -108,17 +109,8 @@
           <!-- <td>{{i.SMA_7}}</td> -->
           <!-- <td>{{i.price}}</td> -->
           <td>{{i.signal}}</td>
-          <!-- <td>{{i.Analysis}}</td> -->
-        <!-- <td>{{i.SMA_8}}</td>
-        <td>{{i.SMA_9}}</td>
-        <td>{{i.SMA_10}}</td>
-        <td>{{i.SMA_11}}</td>
-        <td>{{i.SMA_12}}</td>
-        <td>{{i.SMA_13}}</td>
-        <td>{{i.SMA_14}}</td>
-        <td>{{i.SMA_15}}</td>
-        <td>{{i.SMA_16}}</td>
-        <td>{{i.SMA_17}}</td> -->
+          <td>{{i.signal_adx}}</td>
+
       </tr>
     {% endfor %}
     {% endif %}

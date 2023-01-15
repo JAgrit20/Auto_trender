@@ -47,6 +47,20 @@ def taskCreate(request):
 		objs.signal = 0
 		objs.save()
 		print("Updated SELL (0) success")
+@api_view(['POST'])
+def taskCreate_ADX(request):
+	
+	field_name_signal = 'signal_adx'
+	objs = BTC_Data.objects.last()
+	print("request.data",request.data)
+	if(request.data['title']=="BUY"):
+		objs.signal_adx = 1
+		objs.save()
+		print("Updated BUY (1) success")
+	if(request.data['title']=="SELL"):
+		objs.signal_adx = 0
+		objs.save()
+		print("Updated SELL (0) success")
 	
 
 
