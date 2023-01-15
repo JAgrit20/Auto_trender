@@ -47,6 +47,12 @@ def taskCreate(request):
 		objs.signal = 0
 		objs.save()
 		print("Updated SELL (0) success")
+	serializer = TaskSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+
+	return Response(serializer.data)
+
 @api_view(['POST'])
 def taskCreate_ADX(request):
 	
@@ -61,14 +67,9 @@ def taskCreate_ADX(request):
 		objs.signal_adx = 0
 		objs.save()
 		print("Updated SELL (0) success")
-	
-
-
-	
 	serializer = TaskSerializer(data=request.data)
 	if serializer.is_valid():
 		serializer.save()
-
 	return Response(serializer.data)
 
 @api_view(['POST'])
