@@ -65,6 +65,71 @@ def Check(request):
 
 
     # if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
+    if(field_value_signal == 1):
+        ans = 1
+    # if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+    if( field_value_signal== 0   ):
+        ans = 0
+        
+    BTC_Data.objects.filter(id =field_value_id).update(price = ans)
+    
+
+
+    return HttpResponse(json.dumps({'decision':ans}))
+def Check_both(request):
+
+    # mydata = BTC_Data.objects.last()
+    # mydata_f = BTC_Data.objects.first()
+
+    field_name = 'signal'
+    field_name_2 = 'RSI'
+    field_name_id = 'id'
+    field_name_time = 'time'
+    field_name_signal_adx = 'signal_adx'
+
+    obj = BTC_Data.objects.last()
+
+
+    field_value_id = getattr(obj, field_name_id)
+    field_value_time = getattr(obj, field_name_time)
+    field_value_signal = getattr(obj, field_name)
+    field_value_signal = getattr(obj, field_name)
+    field_value_rsi = getattr(obj, field_name_2)
+    field_value_signal_adx = getattr(obj, field_name_signal_adx)
+
+    print("field_value_signal",field_value_signal)
+    print("field_value_rsi",field_value_rsi)
+    print("field_value_time",field_value_time)
+    print("field_value_id",field_value_id)
+
+    # field_value_rsi = float(field_value_rsi)
+    # field_value_sma = float(field_value_sma)
+
+    # latest_second = BTC_Data.objects.filter().order_by('-pk')[1]
+    # field_value_sma_2 = getattr(latest_second, field_name)
+    # field_value_rsi_2 = getattr(latest_second, field_name_2)
+
+    # print("field_value_sma_2",field_value_sma_2)
+    # print("field_value_sma_2",field_value_sma_2)
+    # field_value_rsi_2 = float(field_value_rsi_2)
+    # field_value_sma_2 = float(field_value_sma_2)
+
+    # 1 == buy
+    # 0 == sell
+    # 2 == null
+
+    ans = 2
+
+    # print("analysis",analysis)
+    # try:
+
+    #     BTC_Data.objects.filter(id =field_value_id).update(Analysis = analysis)
+    #     print("saved analysis in id",field_value_id)
+    # except Exception as e:
+    #     print("something went wrong while adding analysis", e)
+
+
+    # if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
     if(field_value_signal == 1 and field_value_signal_adx == 1 ):
         ans = 1
     # if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
