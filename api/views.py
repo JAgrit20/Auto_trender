@@ -3,7 +3,12 @@ from django.http import JsonResponse
 from counter.models import Counter, PCR_data, PCR_data_past,BTC_Data
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import TaskSerializer
+from .serializers import TaskSerializer,Nifty_DataSerializer
+import datetime as dt
+import datetime
+import pytz
+import schedule
+import time
 
 from .models import Task
 # Create your views here.
@@ -50,6 +55,50 @@ def taskCreate(request):
 	serializer = TaskSerializer(data=request.data)
 	if serializer.is_valid():
 		serializer.save()
+@api_view(['POST'])
+def Nifty_Update(request):
+	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
+
+	# print(dtobj1)
+	dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
+
+	# print(pytz.all_timezones) => To see all timezones
+	dtobj_india = dtobj3.astimezone(pytz.timezone("Asia/Calcutta"))  # astimezone method
+	print("India time data_add", dtobj_india)
+	dtobj_india = dtobj_india.strftime("%H:%M:%S")
+
+	dtobj_indiaa = str(dtobj_india)
+
+	objs = BTC_Data.objects.last()
+	print("request.data",request.data)
+	
+	objs.Nifty_exit = request.data['exit']
+	objs.exit_time = dtobj_indiaa
+	objs.save()
+	print("Updated exit success")
+	serializer = TaskSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+	return Response(serializer.data)
+
+@api_view(['POST'])
+def Nifty_Create(request):
+
+	serializer = Nifty_DataSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+	else:
+		print("Data not saved")
+
+	return Response(serializer.data)
+@api_view(['POST'])
+def Nifty_Create_exit(request):
+
+	serializer = Nifty_DataSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+	else:
+		print("Data not saved")
 
 	return Response(serializer.data)
 
@@ -70,6 +119,7 @@ def taskCreate_ADX(request):
 	serializer = TaskSerializer(data=request.data)
 	if serializer.is_valid():
 		serializer.save()
+
 	return Response(serializer.data)
 
 @api_view(['POST'])

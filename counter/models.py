@@ -64,3 +64,11 @@ class BTC_Data(models.Model):
     # cond5_sell = models.TextField(blank=True)
     # cond6_sell = models.TextField(blank=True)
     price = models.BigIntegerField(blank=True)
+
+class Nifty_Data(models.Model):
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+    entry_time = models.CharField(max_length=10)
+    Nifty_entry = models.FloatField()
+    Nifty_exit = models.FloatField(blank=True)
+    exit_time = models.CharField(blank=True,max_length=10)
+    move = models.BigIntegerField(blank=True,null=True)
