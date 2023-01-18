@@ -25,23 +25,6 @@
 </div>
 
 
-<div class=" row container justify-content-center m-2">
-  <div class="col-4">
-    <form>
-
-    <select id="question-subject" class="form-control-sm custom-select" onChange="form.submit();" action="/" method="post" name="expiry">
-    <option selected disabled>Choose a Expiry</option>
-    {% for subject in exp_date%}
-    <option value="{{ forloop.counter }}" >{{subject}}</option>
-    {% endfor %}
-    </select>
-  </form>
-
-  </div>
-  <div class="col-6">
-  <h3>Selected Expiry: {{selected_exp}} </h3>
-  </div>
-  </div>
     <div class="container">
       <!-- {{exp_date}} -->
 
@@ -51,32 +34,21 @@
           <tr>
 
             <th  scope="col">Time</th>
-            <th  scope="col">Call  </th>
-            <th  scope="col">Put</th>
-            <th  scope="col">Diff</th>
-            <th  scope="col">PCR</th>
-            <th  scope="col">Call_OI  </th>
-            <th  scope="col">Put OI</th>
-            <th  scope="col">Diff OI</th>
-            <th  scope="col">PCR (OI)</th>
-            <th  scope="col">Option Signal</th>
-            <th  scope="col">Price</th>
+            <th  scope="col">Nifty_entry  </th>
+            <th  scope="col">Nifty_exit</th>
+            <th  scope="col">exit_time</th>
+            <th  scope="col">move</th>
+
           </tr>
         </thead>
         <tbody>
           {% for record in mydata %}
           <tr>
-            <th scope="row">{{record.time}}</th>
-            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{ record.call }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.call }}</td>{% endif %}
-            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{ record.put }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.put }}</td>{% endif %}
-            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{record.diff}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{record.diff}}</td>{% endif %}
-            {% if  record.pcr < 1 %} <td style="background-color: red;">{{ record.pcr|floatformat:2 }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.pcr|floatformat:2 }}</td>{% endif %}
-            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{ record.callOI }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.callOI }}</td>{% endif %}
-            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{ record.putOI }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.putOI }}</td>{% endif %}
-            {% if tol_PE_vol < 8 %} <td style="background-color: red;">{{record.diffOI}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{record.diffOI}}</td>{% endif %}
-            {% if  record.pcrOI < 1 %} <td style="background-color: red;">{{ record.pcrOI|floatformat:2 }}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{ record.pcrOI|floatformat:2 }}</td>{% endif %}
-            {% if record.pcr < 1 %} <td style="background-color: red;">{{record.option_signal}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{record.option_signal}}</td>{% endif %}
-            <td>{{record.price}}</td>
+            <th scope="row">{{ record.date|date:'Y-m-d H:i:s' }}</th>
+            <td style="background-color: rgba(255, 119, 0, 0.842);">{{record.Nifty_entry}}</td> 
+            <td style="background-color: rgb(0, 174, 255);">{{record.Nifty_exit}}</td> 
+            <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.exit_time}}</td> 
+            <td>{{record.move}}</td>
           </tr>
           {% endfor %}
 

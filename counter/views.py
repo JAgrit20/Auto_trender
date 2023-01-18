@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Counter, PCR_data,Telegram_data,BTC_Data
+from .models import Counter, PCR_data,Telegram_data,BTC_Data,Nifty_Data
 from django.http import HttpResponse
 import json
 import requests
@@ -143,7 +143,7 @@ def Check_both(request):
     return HttpResponse(json.dumps({'decision':ans}))
 
 def index(request):
-    mydata = PCR_data.objects.all().values()
+    mydata = Nifty_Data.objects.all().values()
     
     # url = 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY'
     # headers = {
