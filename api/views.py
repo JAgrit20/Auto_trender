@@ -87,8 +87,17 @@ def Nifty_Update(request):
 def Nifty_Create(request):
 
 	serializer = Nifty_DataSerializer(data=request.data)
+	spot = float(request.data['entry'] )
+	b = spot/100
+	c = floor(b)
+	d = (c+1 )*100
+	e = (c-1 )*100
+
+
 	if serializer.is_valid():
-		serializer.save()
+		serializer.save(
+		move=d,
+		)
 	else:
 		print("Data not saved")
 
@@ -111,6 +120,7 @@ def taskCreate_ADX(request):
 	objs = BTC_Data.objects.last()
 	print("request.data",request.data)
 	if(request.data['title']=="BUY"):
+
 		objs.signal_adx = 1
 		objs.save()
 		print("Updated BUY (1) success")
