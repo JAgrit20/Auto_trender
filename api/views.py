@@ -86,7 +86,7 @@ def Nifty_Update(request):
 @api_view(['POST'])
 def Nifty_Create(request):
 
-	serializer = Nifty_DataSerializer(data=request.data)
+	serializer = Nifty_DataSerializer(data=request.data) 
 	# spot = float(request.data['entry'] )
 	# b = spot/100
 	# c = floor(b)
