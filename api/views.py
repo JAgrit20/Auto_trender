@@ -87,16 +87,16 @@ def Nifty_Update(request):
 def Nifty_Create(request):
 
 	serializer = Nifty_DataSerializer(data=request.data)
-	spot = float(request.data['entry'] )
-	b = spot/100
-	c = floor(b)
-	d = (c+1 )*100
-	e = (c-1 )*100
+	# spot = float(request.data['entry'] )
+	# b = spot/100
+	# c = floor(b)
+	# d = (c+1 )*100
+	# e = (c-1 )*100
 
 
 	if serializer.is_valid():
 		serializer.save(
-		move=d,
+		# move=d,
 		)
 	else:
 		print("Data not saved")
