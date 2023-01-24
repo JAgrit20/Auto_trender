@@ -329,8 +329,8 @@ def getting_btc_data():
 		json_records = df.reset_index().to_json(orient ='records')
 		data = []
 		data = json.loads(json_records)
-		print("dfff",df)
-		print(df.tail(15))
+		# print("dfff",df)
+		# print(df.tail(15))
 		# print(df['SMA_7'].loc[df.index[-1]])
 		sma =0
 
@@ -351,12 +351,14 @@ def getting_btc_data():
 		# df = pd.DataFrame(list(BlogPost.objects.all().values('author', 'date', 'slug')))
 
 		field_name_signal = 'signal'
+		field_name_price = 'price'
 
 		obj = BTC_Data.objects.last()
 
 		field_value_signal = getattr(obj, field_name_signal)
+		field_value_price = getattr(obj, field_name_price)
 
-		pcr_data_entry = BTC_Data(time=dtobj_indiaa, RSI=rsi,SMA=sma,price=0, signal=field_value_signal)
+		pcr_data_entry = BTC_Data(time=dtobj_indiaa, RSI=rsi,SMA=sma,price=field_value_price, signal=field_value_signal)
 
 		ans = pcr_data_entry.save()
 		print("saving data")

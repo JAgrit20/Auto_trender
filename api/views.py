@@ -57,6 +57,7 @@ def taskCreate(request):
 		serializer.save()
 	return Response(serializer.data)
 
+
 @api_view(['POST'])
 def Nifty_Update(request):
 	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
