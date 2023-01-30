@@ -10,7 +10,7 @@ def start():
 	# scheduler.add_job(schedule_api, 'interval', minutes=15)
 	# scheduler.add_job(clean_daily_db, 'interval', minutes=1)
 	
-	scheduler.add_job(getting_btc_data, 'interval', minutes=1)
+	# scheduler.add_job(getting_btc_data, 'interval', minutes=1)
 	
 	# scheduler.add_job(Telegram_data, 'interval', minutes=5)
 	# scheduler.add_job(clean_daily_db,  CronTrigger.from_crontab('* 10 * * *'))

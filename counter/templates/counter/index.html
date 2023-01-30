@@ -33,6 +33,7 @@
         <thead>
           <tr>
 
+            <th  scope="col">record_time</th>
             <th  scope="col">entry_time</th>
             <th  scope="col">Nifty_entry  </th>
             <th  scope="col">Nifty_exit</th>
@@ -47,6 +48,7 @@
 
             <th scope="row">{{ record.date|date:'Y-m-d H:i:s' }}</th>
             <!-- <td style="background-color: rgba(255, 119, 0, 0.63);">{{record.entry_time}}</td>  -->
+            <td style="background-color: rgba(255, 119, 0, 0.842);">{{record.entry_time}}</td> 
             <td style="background-color: rgba(255, 119, 0, 0.842);">{{record.Nifty_entry}}</td> 
 
             <td style="background-color: rgb(0, 174, 255);">{{record.Nifty_exit}}</td> 

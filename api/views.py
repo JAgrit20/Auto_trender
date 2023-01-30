@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from counter.models import Counter, PCR_data, PCR_data_past,BTC_Data
+from counter.models import Counter, PCR_data, PCR_data_past,BTC_Data,Nifty_Data
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import TaskSerializer,Nifty_DataSerializer
@@ -9,6 +9,7 @@ import datetime
 import pytz
 import schedule
 import time
+import math
 
 from .models import Task
 # Create your views here.
@@ -87,53 +88,123 @@ def Nifty_Update(request):
 @api_view(['POST'])
 def Nifty_Create(request):
 
-	serializer = Nifty_DataSerializer(data=request.data) 
-	# spot = float(request.data['entry'] )
+	# serializer = Nifty_DataSerializer(data=request.data) 
+	spot = float(request.data['entry'] )
 	# b = spot/100
 	# c = floor(b)
 	# d = (c+1 )*100
 	# e = (c-1 )*100
+	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
+	# print(dtobj1)
+	dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
 
+	dtobj_india = dtobj3.astimezone(
+	pytz.timezone("Asia/Calcutta"))  # astimezone method
+	print("India time", dtobj_india)
+	dtobj_india = dtobj_india.strftime("%H:%M")
+	dtobj_indiaa = str(dtobj_india)
+	spot = float(spot)
+	b = float(spot/100)
+	b = float(b)
 
-	if serializer.is_valid():
-		serializer.save(
-		# move=d,
-		)
-	else:
-		print("Data not saved")
+	c = math.floor(b)
+	d = float((c+1 )*100)
+	e = float((c-1 )*100)
+	if(request.data['title']=="buy"):
+		try:
 
-	return Response(serializer.data)
+			nifty_data_entry = Nifty_Data(entry_time=dtobj_indiaa, Nifty_entry=e, Nifty_exit=0, exit_time=0 , move=0,call_put="CE")
+			ans = nifty_data_entry.save()
+		except Exception as e:
+			print("something went while adding nifty", e)
+	if(request.data['title']=="sell"):
+		try:
+
+			nifty_data_entry = Nifty_Data(entry_time=dtobj_indiaa, Nifty_entry=d, Nifty_exit=0, exit_time=0 , move=0,call_put="PE")
+			ans = nifty_data_entry.save()
+		except Exception as e:
+			print("something went while adding nifty", e)
+	if(request.data['title']=="BUY_exit"):
+		print("This is running")
+		try:
+			latest_row = Nifty_Data.objects.filter(call_put='CE').order_by('date').last()
+			last_val = float( latest_row.Nifty_entry )
+			last_val_time = ( latest_row.entry_time )
+			last_val_timee = ( latest_row.Nifty_exit )
+			print("last_val",last_val)
+			print("spot",spot)
+			move = float(spot - last_val)
+			print("move",move) 
+
+			nifty_data_entry = Nifty_Data(entry_time=last_val_time, Nifty_entry=last_val, Nifty_exit=spot, exit_time=dtobj_indiaa , move=move,call_put="CE")
+			ans = nifty_data_entry.save()
+		except Exception as e:
+			print("something went while adding nifty", e)
+	if(request.data['title']=="SELL"):
+		try:
+			latest_row = Nifty_Data.objects.filter(call_put='PE').order_by('-date').last()
+			last_val = float( latest_row.Nifty_entry )
+			last_val_time = ( latest_row.entry_time )
+			move = float(spot - last_val)
+
+			nifty_data_entry = Nifty_Data(entry_time=last_val_time, Nifty_entry=last_val, Nifty_exit=spot, exit_time=dtobj_indiaa , move=move,call_put="PE")
+			ans = nifty_data_entry.save()
+		except Exception as e:
+			print("something went while adding nifty", e)
+
+	return Response("Done")
 @api_view(['POST'])
 def Nifty_Create_exit(request):
 
-	serializer = Nifty_DataSerializer(data=request.data)
-	if serializer.is_valid():
-		serializer.save()
-	else:
-		print("Data not saved")
+	# serializer = Nifty_DataSerializer(data=request.data) 
+	spot = float(request.data['exit'] )
+	# b = spot/100
+	# c = floor(b)
+	# d = (c+1 )*100
+	# e = (c-1 )*100
+	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
+	# print(dtobj1)
+	dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
 
-	return Response(serializer.data)
+	dtobj_india = dtobj3.astimezone(
+	pytz.timezone("Asia/Calcutta"))  # astimezone method
+	print("India time", dtobj_india)
+	dtobj_india = dtobj_india.strftime("%H:%M")
+	dtobj_indiaa = str(dtobj_india)
 
-@api_view(['POST'])
-def taskCreate_ADX(request):
-	
-	field_name_signal = 'signal_adx'
-	objs = BTC_Data.objects.last()
-	print("request.data",request.data)
-	if(request.data['title']=="BUY"):
 
-		objs.signal_adx = 1
-		objs.save()
-		print("Updated BUY (1) success")
+
+
+
+	if(request.data['title']=="BUY_exit"):
+		print("This is running")
+		try:
+			latest_row = Nifty_Data.objects.filter(call_put='CE').order_by('date').last()
+			last_val = float( latest_row.Nifty_entry )
+			last_val_time = ( latest_row.entry_time )
+			last_val_timee = ( latest_row.Nifty_exit )
+			print("last_val",last_val)
+			print("spot",spot)
+			move = float(spot - last_val)
+			print("move",move) 
+
+			nifty_data_entry = Nifty_Data(entry_time=last_val_time, Nifty_entry=last_val, Nifty_exit=spot, exit_time=dtobj_indiaa , move=move,call_put="CE")
+			ans = nifty_data_entry.save()
+		except Exception as e:
+			print("something went while adding nifty", e)
 	if(request.data['title']=="SELL"):
-		objs.signal_adx = 0
-		objs.save()
-		print("Updated SELL (0) success")
-	serializer = TaskSerializer(data=request.data)
-	if serializer.is_valid():
-		serializer.save()
+		try:
+			latest_row = Nifty_Data.objects.filter(call_put='PE').order_by('-date').last()
+			last_val = float( latest_row.Nifty_entry )
+			last_val_time = ( latest_row.entry_time )
+			move = float(spot - last_val)
 
-	return Response(serializer.data)
+			nifty_data_entry = Nifty_Data(entry_time=last_val_time, Nifty_entry=last_val, Nifty_exit=spot, exit_time=dtobj_indiaa , move=move,call_put="PE")
+			ans = nifty_data_entry.save()
+		except Exception as e:
+			print("something went while adding nifty", e)
+
+	return Response("Done")
 
 @api_view(['POST'])
 def taskUpdate(request, pk):
