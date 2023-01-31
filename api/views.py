@@ -45,13 +45,13 @@ def taskCreate(request):
 	field_name_signal = 'signal'
 	objs = BTC_Data.objects.last()
 	print("request.data",request.data)
-	if(request.data['title']=="BUY"):
+	if(request.data['title']=="buy"):
 		# objs.signal = 1
 		last_obj = BTC_Data.objects.last()
 		last_obj.signal = 1
 		last_obj.save()
 		print("Updated BUY (1) success")
-	if(request.data['title']=="SELL"):
+	if(request.data['title']=="sell"):
 		last_obj = BTC_Data.objects.last()
 		last_obj.signal = 0
 		last_obj.save()
