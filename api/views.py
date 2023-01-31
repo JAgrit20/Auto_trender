@@ -41,6 +41,7 @@ def taskDetail(request, pk):
 
 @api_view(['POST'])
 def taskCreate(request):
+	print("data",request.data)
 	
 	field_name_signal = 'signal'
 	objs = BTC_Data.objects.last()
