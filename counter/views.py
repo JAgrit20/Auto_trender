@@ -11,6 +11,16 @@ import pytz
 import time
 
 
+def Check_past(request):
+
+    field_name = 'signal'
+    obj = BTC_Data.objects.last()
+    field_value_signal = getattr(obj, field_name)
+
+    print("field_value_signal",field_value_signal)
+    ans = field_value_signal
+
+    return HttpResponse(json.dumps({'decision':ans}))
 def Check(request):
 
     # mydata = BTC_Data.objects.last()
@@ -19,32 +29,29 @@ def Check(request):
     field_name = 'signal'
     field_name_2 = 'RSI'
     field_name_id = 'id'
-    field_name_time = 'time'
-    field_name_signal_adx = 'signal_adx'
 
     obj = BTC_Data.objects.last()
 
 
     field_value_id = getattr(obj, field_name_id)
-    field_value_time = getattr(obj, field_name_time)
+    # field_value_time = getattr(obj, field_name_time)
     field_value_signal = getattr(obj, field_name)
-    field_value_adx = getattr(obj, field_name_signal_adx)
+    # field_value_adx = getattr(obj, field_name_signal_adx)
     field_value_rsi = getattr(obj, field_name_2)
-    field_value_signal_adx = getattr(obj, field_name_signal_adx)
+    # field_value_signal_adx = getattr(obj, field_name_signal_adx)
 
     print("field_value_signal",field_value_signal)
     print("field_value_rsi",field_value_rsi)
-    print("field_value_time",field_value_time)
     print("field_value_id",field_value_id)
 
 
     ans = 2
 
     # if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
-    if(field_value_signal == 1 and field_value_adx == 1):
+    if(field_value_signal == 1 and field_value_rsi == 1):
         ans = 1
     # if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
-    if( field_value_signal== 0  and field_value_adx == 1 ):
+    if( field_value_signal== 0  and field_value_rsi == 0):
         ans = 0
         
     BTC_Data.objects.filter(id =field_value_id).update(price = ans)

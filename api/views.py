@@ -46,12 +46,36 @@ def taskCreate(request):
 	objs = BTC_Data.objects.last()
 	print("request.data",request.data)
 	if(request.data['title']=="BUY"):
-		objs.signal = 1
-		objs.save()
+		# objs.signal = 1
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal = 1
+		last_obj.save()
 		print("Updated BUY (1) success")
 	if(request.data['title']=="SELL"):
-		objs.signal = 0
-		objs.save()
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal = 0
+		last_obj.save()
+		print("Updated SELL (0) success")
+	serializer = TaskSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+	return Response(serializer.data)
+@api_view(['POST'])
+def taskCreate_RSI(request):
+	
+	field_name_signal = 'RSI'
+	objs = BTC_Data.objects.last()
+	print("request.data",request.data)
+	if(request.data['title']=="BUY"):
+		# objs.signal = 1
+		last_obj = BTC_Data.objects.last()
+		last_obj.RSI = 1
+		last_obj.save()
+		print("Updated BUY (1) success")
+	if(request.data['title']=="SELL"):
+		last_obj = BTC_Data.objects.last()
+		last_obj.RSI = 0
+		last_obj.save()
 		print("Updated SELL (0) success")
 	serializer = TaskSerializer(data=request.data)
 	if serializer.is_valid():

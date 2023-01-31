@@ -270,7 +270,7 @@ def schedule_api():
 
 		# 77779
 
-def getting_btc_data():
+def getting_btc_data_past():
 	try:
 		# print("getting_btc_data")
 		dtobj1 = datetime.datetime.utcnow()  # utcnow class method
@@ -305,24 +305,11 @@ def getting_btc_data():
 		df = pd.DataFrame(list(BTC_Data.objects.all().order_by('id').values()))
 
 
-		# df.ta.sma(close='RSI', length=3, append=True)
-		# df.ta.sma(close='RSI', length=4, append=True)
-		# df.ta.sma(close='RSI', length=5, append=True)
-		# df.ta.sma(close='RSI', length=6, append=True)
-		# df.ta.sma(close='RSI', length=7, append=True)
-
 		#Create a simple moving average with a 30 day window
 		# SMA_30_pd = SMA_30_pd.DataFrame()('Adj Close').rolling(window=30).mean()
 
 		df.ta.sma(close='RSI', length=7, append=True)
-		# df.ta.sma(close='RSI', length=8, append=True)
-		# df.ta.sma(close='RSI', length=9, append=True)
-		# df.ta.sma(close='RSI', length=10, append=True)
-		# df.ta.sma(close='RSI', length=11, append=True)
-		# df.ta.sma(close='RSI', length=12, append=True)
-		# df.ta.sma(close='RSI', length=13, append=True)
 
-		
 
 		# df.ta.sma(close='RSI', length=20, append=True)
 		
@@ -335,21 +322,6 @@ def getting_btc_data():
 		sma =0
 
 
-		# expiry_dt = data['records']['expiryDates'][0]
-		# new_url = 'https://api.taapi.io/sma?secret=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVlIjoiNjNiYjI1ZDBmYzVhOGFkZmVjNTNjNzhmIiwiaWF0IjoxNjczMjA5Mjk2LCJleHAiOjMzMTc3NjczMjk2fQ.uINS1yCmuZW9RTa83rahG9bhYgx7xwt9GRoMzdw_TbQ&exchange=binance&symbol=BTC/USDT&interval=1h'
-
-		# headers = {'User-Agent': 'Mozilla/5.0'}
-		# response = requests.get(url, headers=headers).content
-		# price = json.loads(response.decode('utf-8'))
-		# print("price",price)
-		# dajs = json.loads(page.text)
-		
-
-		# df = pd.DataFrame(list(BTC_Data.objects.filter(date__gte=datetime.datetime(2012, 5, 1)).values()))
-
-		# limit which fields
-		# df = pd.DataFrame(list(BlogPost.objects.all().values('author', 'date', 'slug')))
-
 		field_name_signal = 'signal'
 		field_name_price = 'price'
 
@@ -359,6 +331,49 @@ def getting_btc_data():
 		field_value_price = getattr(obj, field_name_price)
 
 		pcr_data_entry = BTC_Data(time=dtobj_indiaa, RSI=rsi,SMA=sma,price=field_value_price, signal=field_value_signal)
+
+		ans = pcr_data_entry.save()
+		print("saving data")
+		# print("ans", ans)
+
+	except Exception as e:
+		exc_type, exc_obj, exc_tb = sys.exc_info()
+		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+		print(exc_type, fname, exc_tb.tb_lineno)
+		print("something went wrong", e) 
+
+		# 77779
+def getting_btc_data():
+	try:
+		# print("getting_btc_data")
+		dtobj1 = datetime.datetime.utcnow()  # utcnow class method
+
+		# print(dtobj1)
+		dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
+
+		# print(pytz.all_timezones) => To see all timezones
+		dtobj_india = dtobj3.astimezone(
+			pytz.timezone("Asia/Calcutta"))  # astimezone method
+		print("India time data_add", dtobj_india)
+
+		# print("Data2",data)
+		dtobj_india = dtobj_india.strftime("%H:%M:%S")
+
+		dtobj_indiaa = str(dtobj_india)
+
+		field_name_signal = 'signal'
+		field_name_price = 'price'
+		field_name_rsi = 'RSI'
+		field_name_sma = 'SMA'
+
+		obj = BTC_Data.objects.last()
+		# print("obj", obj)
+		field_value_signal = getattr(obj, field_name_signal)
+		field_value_price = getattr(obj, field_name_price)
+		field_value_rsi = getattr(obj, field_name_rsi)
+		field_value_sma = getattr(obj, field_name_sma)
+
+		pcr_data_entry = BTC_Data(time=dtobj_indiaa, RSI=field_value_rsi,SMA=field_value_sma,price=field_value_price, signal=field_value_signal)
 
 		ans = pcr_data_entry.save()
 		print("saving data")
