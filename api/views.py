@@ -10,6 +10,7 @@ import pytz
 import schedule
 import time
 import math
+import json
 
 from .models import Task
 # Create your views here.
@@ -41,9 +42,7 @@ def taskDetail(request, pk):
 
 @api_view(['POST'])
 def taskCreate(request):
-	print("data",request.data)
-	
-	field_name_signal = 'signal'
+
 	objs = BTC_Data.objects.last()
 	print("request.data",request.data)
 	if(request.data['title']=="buy"):
@@ -51,16 +50,64 @@ def taskCreate(request):
 		last_obj = BTC_Data.objects.last()
 		last_obj.signal = 1
 		last_obj.save()
-		print("Updated BUY (1) success")
+		print("Updated BUY (1) success create")
 	if(request.data['title']=="sell"):
 		last_obj = BTC_Data.objects.last()
 		last_obj.signal = 0
 		last_obj.save()
-		print("Updated SELL (0) success")
+		print("Updated SELL (0) success create")
+	# serializer = TaskSerializer(data=request.data)
+	# if serializer.is_valid():
+	# 	serializer.save()
+	return Response("Done")
+@api_view(['POST'])
+def taskCreate_data(request):
+
+	objs = BTC_Data.objects.last()
+	print("request.data",request.data)
+	if(request.data['title']=="buy"):
+		# objs.signal = 1
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal = 1
+		last_obj.save()
+		print("Updated BUY (1) success create")
+	if(request.data['title']=="sell"):
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal = 0
+		last_obj.save()
+		print("Updated SELL (0) success create")
+	# serializer = TaskSerializer(data=request.data)
+	# if serializer.is_valid():
+	# 	serializer.save()
+	return Response("Done")
+
+@api_view(['POST'])
+def taskCreate_adx(request):
+	# print("data",request.data)
+	# req_data = request.get_json(force=True)
+	# print("json data",req_data)
+	# request_body = request.data.decode('utf-8')	
+	# data = json.loads(request_body)
+	# print("json data",data)
+	
+	objs = BTC_Data.objects.last()
+	print("request.data",request.data)
+	if(request.data['title']=="buy"):
+		# objs.signal = 1
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal_adx = 1
+		last_obj.save()
+		print("Updated BUY (1) success adx")
+	if(request.data['title']=="sell"):
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal_adx = 0
+		last_obj.save()
+		print("Updated SELL (0) success adx")
 	serializer = TaskSerializer(data=request.data)
 	if serializer.is_valid():
 		serializer.save()
 	return Response(serializer.data)
+
 @api_view(['POST'])
 def taskCreate_RSI(request):
 	
@@ -72,12 +119,12 @@ def taskCreate_RSI(request):
 		last_obj = BTC_Data.objects.last()
 		last_obj.RSI = 1
 		last_obj.save()
-		print("Updated BUY (1) success")
+		print("Updated BUY (1) success RSI")
 	if(request.data['title']=="SELL"):
 		last_obj = BTC_Data.objects.last()
 		last_obj.RSI = 0
 		last_obj.save()
-		print("Updated SELL (0) success")
+		print("Updated SELL (0) success RSI")
 	serializer = TaskSerializer(data=request.data)
 	if serializer.is_valid():
 		serializer.save()
