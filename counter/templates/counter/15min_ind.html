@@ -71,27 +71,12 @@
       <tr>
         <th>time</th>
         <th>RSI</th>
-        <!-- <th>SMA_2_min</th>
-          <th>SMA_3_min</th>
-          <th>SMA_4_min</th>
-          <th>SMA_5_min</th>
-          <th>SMA_6_min</th> -->
-          <!-- <th>SMA_14_min</th> -->
-          <!-- <th>decsion 1 = buy -- 0 sell</th> -->
-          <!-- <th>Analysis</th> -->
-          <th>Signal 1= buy -- 0 sell RSI</th>
+        <th>Signal 1= buy -- 0 sell --2 no itrend</th>
+          <th>Signal 1= buy -- 0 sell itrend_5min</th>
           <th>Signal 1= buy -- 0 sell ADX</th>
-          <th>Signal 1= buy -- 0 sell --2 no trade final</th>
-        <!-- <th>SMA_8_min</th>
-        <th>SMA_9_min</th>
-        <th>SMA_10_min</th>
-        <th>SMA_11_min</th>
-        <th>SMA_12_min</th>
-        <th>SMA_13_min</th> -->
-        <!-- <th>SMA_14_min</th>
-        <th>SMA_15_min</th>
-        <th>SMA_16_min</th>
-        <th>SMA_17_min</th> -->
+          <th>Signal 1= buy -- 0 sell --2  price </th>
+          <th>Signal 1= buy -- 0 sell --2 5_min </th>
+
       </tr>
     </thead>
     <tbody>
@@ -100,18 +85,14 @@
     {% for i in d reversed %}
     <!-- {{i}} -->
       <tr>
+        
         <td>{{i.time}}</td>
         <td>{{i.RSI}}</td>
-        <!-- <td>{{i.SMA_2}}</td>
-          <td>{{i.SMA_3}}</td>
-          <td>{{i.SMA_4}}</td>
-          <td>{{i.SMA_5}}</td>
-          <td>{{i.SMA_6}}</td> -->
-          <!-- <td>{{i.SMA_7}}</td> -->
-          <!-- <td>{{i.price}}</td> -->
-          <td>{{i.signal}}</td>
+        <td>{{i.signal}}</td>
+          <td>{{i.signal_5min}}</td>
           <td>{{i.signal_adx}}</td>
           <td>{{i.price}}</td>
+          <td>{{i.price_5min}}</td>
 
       </tr>
     {% endfor %}

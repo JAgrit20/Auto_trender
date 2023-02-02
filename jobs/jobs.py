@@ -366,6 +366,7 @@ def getting_btc_data():
 		field_name_rsi = 'RSI'
 		field_name_sma = 'SMA'
 		field_name_adx = 'signal_adx'
+		field_name_signal_5min= 'signal_5min'
 
 		obj = BTC_Data.objects.last()
 		# print("obj", obj)
@@ -374,8 +375,9 @@ def getting_btc_data():
 		field_value_rsi = getattr(obj, field_name_rsi)
 		field_value_sma = getattr(obj, field_name_sma)
 		field_value_adx = getattr(obj, field_name_adx)
+		field_value_5min = getattr(obj, field_name_signal_5min)
 
-		pcr_data_entry = BTC_Data(time=dtobj_indiaa, RSI=field_value_rsi,SMA=field_value_sma,price=field_value_price, signal=field_value_signal,signal_adx = field_value_adx)
+		pcr_data_entry = BTC_Data(time=dtobj_indiaa, RSI=field_value_rsi,SMA=field_value_sma,price=field_value_price, signal=field_value_signal,signal_adx = field_value_adx,signal_5min = field_value_5min)
 
 		ans = pcr_data_entry.save()
 		print("saving data")

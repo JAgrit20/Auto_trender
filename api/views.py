@@ -80,6 +80,24 @@ def taskCreate_data(request):
 	# if serializer.is_valid():
 	# 	serializer.save()
 	return Response("Done")
+	
+@api_view(['POST'])
+def taskCreate_data_5min(request):
+
+	objs = BTC_Data.objects.last()
+	print("request.data",request.data)
+	if(request.data['title']=="buy"):
+		# objs.signal = 1
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal_5min = 1
+		last_obj.save()
+		print("Updated BUY (1) success create")
+	if(request.data['title']=="sell"):
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal_5min = 0
+		last_obj.save()
+		print("Updated SELL (0) success create")
+	return Response("Done")
 
 @api_view(['POST'])
 def taskCreate_adx(request):

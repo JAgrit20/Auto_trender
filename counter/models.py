@@ -57,12 +57,8 @@ class BTC_Data(models.Model):
     Analysis = models.TextField(blank=True)
     signal = models.BigIntegerField(blank=True,null=True)
     signal_adx = models.BigIntegerField(blank=True,null=True)
-    # cond1_buy = models.TextField(blank=True)
-    # cond2_buy = models.TextField(blank=True)
-    # cond3_buy = models.TextField(blank=True)
-    # cond4_sell= models.TextField(blank=True)
-    # cond5_sell = models.TextField(blank=True)
-    # cond6_sell = models.TextField(blank=True)
+    signal_5min = models.BigIntegerField(blank=True,null=True)
+    price_5min = models.BigIntegerField(blank=True,null=True)
     price = models.BigIntegerField(blank=True)
 
 class Nifty_Data(models.Model):
