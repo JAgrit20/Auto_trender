@@ -39,7 +39,7 @@
           {% for record in mydata %}
           <tr>
             <th scope="row">{{record.time}}</th>
-            {% if Nifty_new < Nifty_prev %} <td style="background-color: red;">{{ record.price }}</td> {% else %}    <td style="background-color: rgb(90, 240, 90);">{{ record.Nifty_new }}</td>{% endif %}
+            {% if Nifty_new < Nifty_prev %} <td  style="background-color: rgba(0, 255, 38, 0.561);"style="background-color: red;">{{ record.price }}</td> {% else %}    <td style="background-color: rgb(90, 240, 90);">{{ record.Nifty_new }}</td>{% endif %}
             {% if record.Count <= 10 %} <td style="background-color: red;">{{record.sma}}</td> {% else %}    <td style="background-color: rgb(10, 255, 10);">{{record.Count}}</td>{% endif %}
             {% if  record.RSI < 1 %} <td style="background-color: red;">{{ record.RSI }}</td> {% else %}    <td style="background-color: rgb(2, 93, 2);">{{ record.RSI }}</td>{% endif %}
           </tr>
@@ -87,12 +87,17 @@
       <tr>
         
         <td>{{i.time}}</td>
-        <td>{{i.RSI}}</td>
-        <td>{{i.signal}}</td>
-          <td>{{i.signal_5min}}</td>
-          <td>{{i.signal_adx}}</td>
-          <td>{{i.price}}</td>
-          <td>{{i.price_5min}}</td>
+
+        {% if  i.RSI > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.RSI}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.RSI}}</td> {% endif %}
+        {% if  i.signal > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.signal}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.signal}}</td> {% endif %}
+        {% if  i.signal_5min > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.signal_5min}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.signal_5min}}</td> {% endif %}
+        {% if  i.signal_adx > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.signal_adx}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.signal_adx}}</td> {% endif %}
+        <!-- {% if  i.price > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.price}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.price}}</td> {% endif %} -->
+        {% if  i.price > 1.5  %}<td  style="background-color: rgba(187, 0, 255, 0.561);">{{i.price}}</td>  {% elif  i.price > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.price}}</td>  {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.price}}</td> {% endif %}
+        {% if  i.price_5min > 1.5  %}<td  style="background-color: rgba(187, 0, 255, 0.561);">{{i.price_5min}}</td>  {% elif  i.price_5min > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.price_5min}}</td>  {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.price_5min}}</td> {% endif %}
+        <!-- {% if  i.price > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.price}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.price}}</td> {% endif %} -->
+        <!-- {% if  i.price_5min > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.price_5min}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.price_5min}}</td> {% endif %} -->
+
 
       </tr>
     {% endfor %}

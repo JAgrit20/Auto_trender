@@ -217,7 +217,7 @@ def strategy_2(request):
 
     # df.ta.sma(close='RSI', length=20, append=True)
     print(df)
-    json_records = df.tail(250).reset_index().to_json(orient ='records')      
+    json_records = df.tail(3500).reset_index().to_json(orient ='records')      
     data = []
     data = json.loads(json_records)
     context = {'mydata':mydata, 'd':data }
