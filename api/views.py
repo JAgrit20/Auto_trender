@@ -81,7 +81,7 @@ def taskCreate_data(request):
 	# 	serializer.save()
 
 	field_name = 'signal'
-	
+
 	field_name_2 = 'RSI'
 	field_name_id = 'id'
 	field_name_adx= 'signal_adx'
@@ -112,7 +112,7 @@ def taskCreate_data(request):
 	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1):
 		ans = 1
 	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
-	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 1):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0):
 		ans = 0
 		
 	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
@@ -166,7 +166,7 @@ def taskCreate_data_5min(request):
 	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1):
 		ans = 1
 	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
-	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 1):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0):
 		ans = 0
 		
 	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
@@ -228,7 +228,7 @@ def taskCreate_adx(request):
 	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1):
 		ans = 1
 	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
-	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 1):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0):
 		ans = 0
 		
 	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
@@ -285,7 +285,7 @@ def taskCreate_RSI(request):
 	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1):
 		ans = 1
 	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
-	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 1):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0):
 		ans = 0
 		
 	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
@@ -417,7 +417,7 @@ def Nifty_Create(request):
 	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1):
 		ans = 1
 	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
-	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 1):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0):
 		ans = 0
 		
 	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
