@@ -56,8 +56,9 @@ class BTC_Data(models.Model):
     SMA = models.FloatField(blank=True)
     Analysis = models.TextField(blank=True)
     signal = models.BigIntegerField(blank=True,null=True)
-    signal_adx = models.BigIntegerField(blank=True,null=True)
     signal_5min = models.BigIntegerField(blank=True,null=True)
+    signal_adx = models.BigIntegerField(blank=True,null=True)
+    signal_adx_5min = models.BigIntegerField(blank=True,null=True)
     price_5min = models.BigIntegerField(blank=True,null=True)
     price = models.BigIntegerField(blank=True)
 

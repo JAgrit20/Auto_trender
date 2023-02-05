@@ -45,13 +45,13 @@ def taskCreate(request):
 
 	objs = BTC_Data.objects.last()
 	print("request.data",request.data)
-	if(request.data['title']=="buy"):
+	if(request.data['title']=="BUY"):
 		# objs.signal = 1
 		last_obj = BTC_Data.objects.last()
 		last_obj.signal = 1
 		last_obj.save()
 		print("Updated BUY (1) success create")
-	if(request.data['title']=="sell"):
+	if(request.data['title']=="SELL"):
 		last_obj = BTC_Data.objects.last()
 		last_obj.signal = 0
 		last_obj.save()
@@ -59,33 +59,12 @@ def taskCreate(request):
 	# serializer = TaskSerializer(data=request.data)
 	# if serializer.is_valid():
 	# 	serializer.save()
-	return Response("Done")
-@api_view(['POST'])
-def taskCreate_data(request):
-
-	objs = BTC_Data.objects.last()
-	print("request.data",request.data)
-	if(request.data['title']=="buy"):
-		# objs.signal = 1
-		last_obj = BTC_Data.objects.last()
-		last_obj.signal = 1
-		last_obj.save()
-		print("Updated BUY (1) success create")
-	if(request.data['title']=="sell"):
-		last_obj = BTC_Data.objects.last()
-		last_obj.signal = 0
-		last_obj.save()
-		print("Updated SELL (0) success create")
-	# serializer = TaskSerializer(data=request.data)
-	# if serializer.is_valid():
-	# 	serializer.save()
-
 	field_name = 'signal'
-
 	field_name_2 = 'RSI'
 	field_name_id = 'id'
 	field_name_adx= 'signal_adx'
 	field_name_signal_5min= 'signal_5min'
+	field_name_signal_adx_5min= 'signal_adx_5min'
 
 	obj = BTC_Data.objects.last()
 
@@ -98,38 +77,106 @@ def taskCreate_data(request):
 	# field_value_signal_adx = getattr(obj, field_name_signal_adx)
 	field_value_adx = getattr(obj, field_name_adx)
 	field_value_5min = getattr(obj, field_name_signal_5min)
+	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
 
 	print("field_value_signal",field_value_signal)
 	print("field_value_rsi",field_value_rsi)
 	print("field_value_id",field_value_id)
 	print("field_value_adx",field_value_adx)
 	print("field_value_5min",field_value_5min)
-
+	print("field_value_adx_5min",field_value_signal_adx_5min)
 
 	ans = 2
 
 	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
-	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1):
+	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1 and field_value_signal_adx_5min == 1):
 		ans = 1
 	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
-	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0 and field_value_signal_adx_5min == 1):
 		ans = 0
 		
 	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
+	
+	return Response("Done")
+@api_view(['POST'])
+def taskCreate_data(request):
+
+	objs = BTC_Data.objects.last()
+	print("request.data",request.data)
+	if(request.data['title']=="BUY"):
+		# objs.signal = 1
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal = 1
+		last_obj.save()
+		print("Updated BUY (1) success create")
+	if(request.data['title']=="SELL"):
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal = 0
+		last_obj.save()
+		print("Updated SELL (0) success create")
+	# serializer = TaskSerializer(data=request.data)
+	# if serializer.is_valid():
+	# 	serializer.save()
+
+	field_name = 'signal'
+	field_name_2 = 'RSI'
+	field_name_id = 'id'
+	field_name_adx= 'signal_adx'
+	field_name_signal_5min= 'signal_5min'
+	field_name_signal_adx_5min= 'signal_adx_5min'
+
+	obj = BTC_Data.objects.last()
+
+
+	field_value_id = getattr(obj, field_name_id)
+	# field_value_time = getattr(obj, field_name_time)
+	field_value_signal = getattr(obj, field_name)
+	# field_value_adx = getattr(obj, field_name_signal_adx)
+	field_value_rsi = getattr(obj, field_name_2)
+	# field_value_signal_adx = getattr(obj, field_name_signal_adx)
+	field_value_adx = getattr(obj, field_name_adx)
+	field_value_5min = getattr(obj, field_name_signal_5min)
+	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
+
+	print("field_value_signal",field_value_signal)
+	print("field_value_rsi",field_value_rsi)
+	print("field_value_id",field_value_id)
+	print("field_value_adx",field_value_adx)
+
+	print("field_value_5min",field_value_5min)
+	print("field_value_adx_5min",field_value_signal_adx_5min)
+
+	ans = 2
+	ans2 = 2
+
+	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
+	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1 and field_value_signal_adx_5min == 1):
+		ans = 1
+	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0 and field_value_signal_adx_5min == 1):
+		ans = 0
+	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
+	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1  and field_value_signal_adx_5min == 1):
+		ans2 = 1
+	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1  and field_value_signal_adx_5min == 1):
+		ans2 = 0
+		
+	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
+	BTC_Data.objects.filter(id =field_value_id).update(price = ans2)
 	return Response("Done")
 	
 @api_view(['POST'])
 def taskCreate_data_5min(request):
-
 	objs = BTC_Data.objects.last()
 	print("request.data",request.data)
-	if(request.data['title']=="buy"):
+	if(request.data['title']=="BUY"):
 		# objs.signal = 1
 		last_obj = BTC_Data.objects.last()
 		last_obj.signal_5min = 1
 		last_obj.save()
 		print("Updated BUY (1) success create")
-	if(request.data['title']=="sell"):
+	if(request.data['title']=="SELL"):
 		last_obj = BTC_Data.objects.last()
 		last_obj.signal_5min = 0
 		last_obj.save()
@@ -140,6 +187,7 @@ def taskCreate_data_5min(request):
 	field_name_id = 'id'
 	field_name_adx= 'signal_adx'
 	field_name_signal_5min= 'signal_5min'
+	field_name_signal_adx_5min= 'signal_adx_5min'
 
 	obj = BTC_Data.objects.last()
 
@@ -152,24 +200,34 @@ def taskCreate_data_5min(request):
 	# field_value_signal_adx = getattr(obj, field_name_signal_adx)
 	field_value_adx = getattr(obj, field_name_adx)
 	field_value_5min = getattr(obj, field_name_signal_5min)
+	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
 
 	print("field_value_signal",field_value_signal)
 	print("field_value_rsi",field_value_rsi)
 	print("field_value_id",field_value_id)
 	print("field_value_adx",field_value_adx)
+
 	print("field_value_5min",field_value_5min)
+	print("field_value_adx_5min",field_value_signal_adx_5min)
 
 
 	ans = 2
-
+	ans2 = 2
 	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
-	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1):
+	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1 and field_value_signal_adx_5min == 1):
 		ans = 1
 	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
-	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0 and field_value_signal_adx_5min == 1):
 		ans = 0
+	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1  and field_value_signal_adx_5min == 1):
+		ans2 = 1
+	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1  and field_value_signal_adx_5min == 1):
+		ans2 = 0
 		
 	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
+	BTC_Data.objects.filter(id =field_value_id).update(price = ans2)
+		
 	return Response("Done")
 
 @api_view(['POST'])
@@ -183,13 +241,13 @@ def taskCreate_adx(request):
 	
 	objs = BTC_Data.objects.last()
 	print("request.data",request.data)
-	if(request.data['title']=="buy"):
+	if(request.data['title']=="BUY"):
 		# objs.signal = 1
 		last_obj = BTC_Data.objects.last()
 		last_obj.signal_adx = 1
 		last_obj.save()
 		print("Updated BUY (1) success adx")
-	if(request.data['title']=="sell"):
+	if(request.data['title']=="SELL"):
 		last_obj = BTC_Data.objects.last()
 		last_obj.signal_adx = 0
 		last_obj.save()
@@ -202,6 +260,7 @@ def taskCreate_adx(request):
 	field_name_id = 'id'
 	field_name_adx= 'signal_adx'
 	field_name_signal_5min= 'signal_5min'
+	field_name_signal_adx_5min= 'signal_adx_5min'
 
 	obj = BTC_Data.objects.last()
 
@@ -214,24 +273,33 @@ def taskCreate_adx(request):
 	# field_value_signal_adx = getattr(obj, field_name_signal_adx)
 	field_value_adx = getattr(obj, field_name_adx)
 	field_value_5min = getattr(obj, field_name_signal_5min)
+	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
 
 	print("field_value_signal",field_value_signal)
 	print("field_value_rsi",field_value_rsi)
 	print("field_value_id",field_value_id)
 	print("field_value_adx",field_value_adx)
-	print("field_value_5min",field_value_5min)
 
+	print("field_value_5min",field_value_5min)
+	print("field_value_adx_5min",field_value_signal_adx_5min)
 
 	ans = 2
+	ans2 = 2
 
 	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
-	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1):
+	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1 and field_value_signal_adx_5min == 1):
 		ans = 1
 	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
-	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0 and field_value_signal_adx_5min == 1):
 		ans = 0
+	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1  and field_value_signal_adx_5min == 1):
+		ans2 = 1
+	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1  and field_value_signal_adx_5min == 1):
+		ans2 = 0
 		
 	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
+	BTC_Data.objects.filter(id =field_value_id).update(price = ans2)		
 	return Response(serializer.data)
 
 @api_view(['POST'])
@@ -254,11 +322,13 @@ def taskCreate_RSI(request):
 	serializer = TaskSerializer(data=request.data)
 	if serializer.is_valid():
 		serializer.save()
+
 	field_name = 'signal'
 	field_name_2 = 'RSI'
 	field_name_id = 'id'
 	field_name_adx= 'signal_adx'
 	field_name_signal_5min= 'signal_5min'
+	field_name_signal_adx_5min= 'signal_adx_5min'
 
 	obj = BTC_Data.objects.last()
 
@@ -271,24 +341,100 @@ def taskCreate_RSI(request):
 	# field_value_signal_adx = getattr(obj, field_name_signal_adx)
 	field_value_adx = getattr(obj, field_name_adx)
 	field_value_5min = getattr(obj, field_name_signal_5min)
+	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
 
 	print("field_value_signal",field_value_signal)
 	print("field_value_rsi",field_value_rsi)
 	print("field_value_id",field_value_id)
 	print("field_value_adx",field_value_adx)
-	print("field_value_5min",field_value_5min)
 
+	print("field_value_5min",field_value_5min)
+	print("field_value_adx_5min",field_value_signal_adx_5min)
 
 	ans = 2
+	ans2 = 2
 
 	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
-	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1):
+	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1 and field_value_signal_adx_5min == 1):
 		ans = 1
 	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
-	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0 and field_value_signal_adx_5min == 1):
 		ans = 0
+	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1  and field_value_signal_adx_5min == 1):
+		ans2 = 1
+	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1  and field_value_signal_adx_5min == 1):
+		ans2 = 0
 		
 	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
+	BTC_Data.objects.filter(id =field_value_id).update(price = ans2)	
+	return Response(serializer.data)
+
+@api_view(['POST'])
+def taskCreate_ADX_5min(request):
+	
+	field_name_signal = 'RSI'
+	objs = BTC_Data.objects.last()
+	print("request.data",request.data)
+	if(request.data['title']=="BUY"):
+		# objs.signal = 1
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal_adx_5min = 1
+		last_obj.save()
+		print("Updated BUY (1) success RSI")
+	if(request.data['title']=="SELL"):
+		last_obj = BTC_Data.objects.last()
+		last_obj.signal_adx_5min = 0
+		last_obj.save()
+		print("Updated SELL (0) success RSI")
+	serializer = TaskSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+	field_name = 'signal'
+	field_name_2 = 'RSI'
+	field_name_id = 'id'
+	field_name_adx= 'signal_adx'
+	field_name_signal_5min= 'signal_5min'
+	field_name_signal_adx_5min= 'signal_adx_5min'
+
+	obj = BTC_Data.objects.last()
+
+
+	field_value_id = getattr(obj, field_name_id)
+	# field_value_time = getattr(obj, field_name_time)
+	field_value_signal = getattr(obj, field_name)
+	# field_value_adx = getattr(obj, field_name_signal_adx)
+	field_value_rsi = getattr(obj, field_name_2)
+	# field_value_signal_adx = getattr(obj, field_name_signal_adx)
+	field_value_adx = getattr(obj, field_name_adx)
+	field_value_5min = getattr(obj, field_name_signal_5min)
+	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
+
+	print("field_value_signal",field_value_signal)
+	print("field_value_rsi",field_value_rsi)
+	print("field_value_id",field_value_id)
+	print("field_value_adx",field_value_adx)
+
+	print("field_value_5min",field_value_5min)
+	print("field_value_adx_5min",field_value_signal_adx_5min)
+
+	ans = 2
+	ans2 = 2
+
+	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
+	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1 and field_value_5min == 1 and field_value_signal_adx_5min == 1):
+		ans = 1
+	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1 and field_value_5min == 0 and field_value_signal_adx_5min == 1):
+		ans = 0
+	if(field_value_signal == 1 and field_value_rsi == 1 and field_value_adx == 1  and field_value_signal_adx_5min == 1):
+		ans2 = 1
+	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+	if( field_value_signal== 0  and field_value_rsi == 0 and field_value_adx == 1  and field_value_signal_adx_5min == 1):
+		ans2 = 0
+		
+	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
+	BTC_Data.objects.filter(id =field_value_id).update(price = ans2)	
 	return Response(serializer.data)
 
 
@@ -345,14 +491,14 @@ def Nifty_Create(request):
 	c = math.floor(b)
 	d = float((c+1 )*100)
 	e = float((c-1 )*100)
-	if(request.data['title']=="buy"):
+	if(request.data['title']=="BUY"):
 		try:
 
 			nifty_data_entry = Nifty_Data(entry_time=dtobj_indiaa, Nifty_entry=e, Nifty_exit=0, exit_time=0 , move=0,call_put="CE")
 			ans = nifty_data_entry.save()
 		except Exception as e:
 			print("something went while adding nifty", e)
-	if(request.data['title']=="sell"):
+	if(request.data['title']=="SELL"):
 		try:
 
 			nifty_data_entry = Nifty_Data(entry_time=dtobj_indiaa, Nifty_entry=d, Nifty_exit=0, exit_time=0 , move=0,call_put="PE")
