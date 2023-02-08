@@ -447,14 +447,17 @@ def taskCreate_data_stocastic_up(request):
 	dtobj_india = dtobj_india.strftime("%H:%M:%S")
 	dtobj_indiaa = str(dtobj_india)
 	Updated = "No"
+	field_name_adx = 'ADX'
+	obj = Stocastic_Data.objects.last()
+	field_value_adx= getattr(obj, field_name_adx)
 
 	if(request.data['title']=="BUY"):
-		pcr_data_entry = Stocastic_Data(time=dtobj_indiaa, Stocastic_up=1,Stocastic_down=0)
+		pcr_data_entry = Stocastic_Data(time=dtobj_indiaa, Stocastic_up=1,Stocastic_down=0,ADX=field_value_adx)
 		ans = pcr_data_entry.save()
 		Updated = "Buy Yes"
 		print("Updated BUY (1) success stocastic")
 	if(request.data['title']=="SELL"):
-		pcr_data_entry = Stocastic_Data(time=dtobj_indiaa, Stocastic_up=0,Stocastic_down=1)
+		pcr_data_entry = Stocastic_Data(time=dtobj_indiaa, Stocastic_up=0,Stocastic_down=1,ADX=field_value_adx)
 		ans = pcr_data_entry.save()
 		Updated = "Sell No"
 		print("Updated SELL (1) success stocastic")
