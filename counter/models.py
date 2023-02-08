@@ -61,6 +61,13 @@ class BTC_Data(models.Model):
     signal_adx_5min = models.BigIntegerField(blank=True,null=True)
     price_5min = models.BigIntegerField(blank=True,null=True)
     price = models.BigIntegerField(blank=True)
+class Stocastic_Data(models.Model):
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+    time = models.CharField(max_length=10)
+    Stocastic_up = models.FloatField()
+    Stocastic_down = models.FloatField()
+    
+
 
 class Nifty_Data(models.Model):
 

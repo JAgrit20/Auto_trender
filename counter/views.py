@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Counter, PCR_data,Telegram_data,BTC_Data,Nifty_Data
+from .models import Counter, PCR_data,Telegram_data,BTC_Data,Nifty_Data,Stocastic_Data
 from django.http import HttpResponse
 import json
 import requests
@@ -203,7 +203,7 @@ def index(request):
 	#
 	# print("nif",nifty_exp_date)
 
-	context = {'mydata':mydata   }
+	context = {'mydata':mydata}
 
 
 	return render(request, 'counter/index.html', context)
@@ -230,6 +230,17 @@ def strategy_2(request):
 	context = {'mydata':mydata, 'd':data }
 
 	return render(request, 'counter/15min_ind.html', context)
+def strategy_3(request):
+
+	mydata = Stocastic_Data.objects.all()[:10]
+	df = pd.DataFrame(list(Stocastic_Data.objects.all().order_by('id').values()))
+	print(df)
+	json_records = df.tail(3500).reset_index().to_json(orient ='records')      
+	data = []
+	data = json.loads(json_records)
+	context = {'mydata':mydata, 'd':data }
+
+	return render(request, 'counter/Socastic.html', context)
 
 def save_data(symbol):
 

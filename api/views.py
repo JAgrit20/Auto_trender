@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from counter.models import Counter, PCR_data, PCR_data_past,BTC_Data,Nifty_Data
+from counter.models import Counter, PCR_data, PCR_data_past,BTC_Data,Nifty_Data,Stocastic_Data
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import TaskSerializer,Nifty_DataSerializer
@@ -436,6 +436,30 @@ def taskCreate_ADX_5min(request):
 	BTC_Data.objects.filter(id =field_value_id).update(price_5min = ans)
 	BTC_Data.objects.filter(id =field_value_id).update(price = ans2)	
 	return Response(serializer.data)
+
+@api_view(['POST'])
+def taskCreate_data_stocastic_up(request):
+	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
+	dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
+	dtobj_india = dtobj3.astimezone(
+	pytz.timezone("Asia/Calcutta"))  # astimezone method
+	print("India time", dtobj_india)
+	dtobj_india = dtobj_india.strftime("%H:%M:%S")
+	dtobj_indiaa = str(dtobj_india)
+	Updated = "No"
+
+	if(request.data['title']=="BUY"):
+		pcr_data_entry = Stocastic_Data(time=dtobj_indiaa, Stocastic_up=1,Stocastic_down=0)
+		ans = pcr_data_entry.save()
+		Updated = "Buy Yes"
+		print("Updated BUY (1) success stocastic")
+	if(request.data['title']=="SELL"):
+		pcr_data_entry = Stocastic_Data(time=dtobj_indiaa, Stocastic_up=0,Stocastic_down=1)
+		ans = pcr_data_entry.save()
+		Updated = "Sell No"
+		print("Updated SELL (1) success stocastic")
+
+	return Response(Updated)
 
 
 @api_view(['POST'])
