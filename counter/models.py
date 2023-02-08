@@ -64,8 +64,10 @@ class BTC_Data(models.Model):
 class Stocastic_Data(models.Model):
     date = models.DateTimeField(auto_now_add=True, blank=True)
     time = models.CharField(max_length=10)
-    Stocastic_up = models.FloatField()
-    Stocastic_down = models.FloatField()
+    Stocastic_up = models.FloatField(blank=True)
+    Stocastic_down = models.FloatField(blank=True)
+    ADX = models.FloatField(blank=True,null= True)
+    Final_call = models.FloatField(blank=True ,null= True)
     
 
 

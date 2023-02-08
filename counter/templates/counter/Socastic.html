@@ -78,18 +78,23 @@
         <th>time</th>
         <th>Stocastic_up</th>
         <th>Stocastic_down</th>
+        <th>ADX</th>
+        <th>Final_call</th>
 
       </tr>
     </thead>
     <tbody>
     <!-- jinja2 Technique -->
     {% if d %}  
-    {% for i in d reversed %}
+    {% for i in mydata reversed %}
     <!-- {{i}} -->
       <tr>  
         <td>{{i.time}}</td>
         {% if  i.Stocastic_up > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.Stocastic_up}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.Stocastic_up}}</td> {% endif %}
         {% if  i.Stocastic_down > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.Stocastic_down}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.Stocastic_down}}</td> {% endif %}    
+        {% if  i.ADX > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.ADX}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.ADX}}</td> {% endif %}    
+        {% if  i.Final_call > 1.5  %}<td  style="background-color: rgba(187, 0, 255, 0.561);">{{i.Final_call}}</td>  {% elif  i.Final_call > 0.5 %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.Final_call}}</td>  {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.Final_call}}</td> {% endif %}
+     
       </tr>
     {% endfor %}
     {% endif %}

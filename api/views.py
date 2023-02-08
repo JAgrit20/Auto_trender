@@ -458,6 +458,93 @@ def taskCreate_data_stocastic_up(request):
 		ans = pcr_data_entry.save()
 		Updated = "Sell No"
 		print("Updated SELL (1) success stocastic")
+	field_name = 'Stocastic_up'
+	field_name_2 = 'Stocastic_down'
+	field_name_id = 'id'
+	field_name_adx = 'ADX'
+	obj = Stocastic_Data.objects.last()
+
+	field_value_id = getattr(obj, field_name_id)
+	field_value_up = getattr(obj, field_name)
+	field_value_down= getattr(obj, field_name_2)
+	field_value_adx= getattr(obj, field_name_adx)
+
+	print("field_value_id",field_value_id)
+	print("field_value_up",field_value_up)
+	print("field_value_down",field_value_down)
+	print("field_value_adx",field_value_adx)
+
+	ans = 2
+
+	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
+	if(field_value_up == 1 and field_value_down == 0 and field_value_adx == 1):
+		ans = 1
+	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+	if( field_value_up== 0 and field_value_down == 1 and field_value_adx == 1):
+		ans = 0
+		
+	Stocastic_Data.objects.filter(id =field_value_id).update(Final_call = ans)
+
+	return Response(Updated)
+@api_view(['POST'])
+def taskCreate_data_stocastic_ADX(request):
+	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
+	dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
+	dtobj_india = dtobj3.astimezone(
+	pytz.timezone("Asia/Calcutta"))  # astimezone method
+	print("India time", dtobj_india)
+	dtobj_india = dtobj_india.strftime("%H:%M:%S")
+	dtobj_indiaa = str(dtobj_india)
+	Updated = "No"
+	field_name = 'Stocastic_up'
+	field_name_2 = 'Stocastic_down'
+	field_name_id = 'id'
+	field_name_adx = 'ADX'
+	obj = Stocastic_Data.objects.last()
+	
+	field_value_id = getattr(obj, field_name_id)
+	field_value_up = getattr(obj, field_name)
+	field_value_down= getattr(obj, field_name_2)
+	field_value_adx= getattr(obj, field_name_adx)
+
+	print("field_value_id",field_value_id)
+	print("field_value_up",field_value_up)
+	print("field_value_down",field_value_down)
+	print("field_value_adx",field_value_adx)
+
+	if(request.data['title']=="BUY"):
+		Stocastic_Data.objects.filter(id =field_value_id).update(ADX = 1)
+		# pcr_data_entry = Stocastic_Data(time=dtobj_indiaa, Stocastic_up=1,Stocastic_down=0)
+		# ans = pcr_data_entry.save()
+		Updated = "Buy Yes"
+		print("Updated BUY (1) success stocastic")
+	if(request.data['title']=="SELL"):
+		Stocastic_Data.objects.filter(id =field_value_id).update(ADX = 0)
+		# pcr_data_entry = Stocastic_Data(time=dtobj_indiaa, Stocastic_up=0,Stocastic_down=1)
+		# ans = pcr_data_entry.save()
+		Updated = "Sell No"
+		print("Updated SELL (1) success stocastic")
+	obj = Stocastic_Data.objects.last()
+	
+	field_value_id = getattr(obj, field_name_id)
+	field_value_up = getattr(obj, field_name)
+	field_value_down= getattr(obj, field_name_2)
+	field_value_adx= getattr(obj, field_name_adx)
+
+	print("field_value_id",field_value_id)
+	print("field_value_up",field_value_up)
+	print("field_value_down",field_value_down)
+	print("field_value_adx",field_value_adx)
+	ans = 2
+
+	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
+	if(field_value_up == 1 and field_value_down == 0 and field_value_adx == 1):
+		ans = 1
+	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+	if( field_value_up== 0 and field_value_down == 1 and field_value_adx == 1):
+		ans = 0
+		
+	Stocastic_Data.objects.filter(id =field_value_id).update(Final_call = ans)
 
 	return Response(Updated)
 
