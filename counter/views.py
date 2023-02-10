@@ -115,19 +115,23 @@ def check_s3(request):
 
 	obj = Stocastic_Data.objects.last()
 	
+	
 	field_name = 'Stocastic_up'
 	field_name_2 = 'Stocastic_down'
 	field_name_id = 'id'
 	field_name_adx = 'ADX'
+	field_name_time = 'time'
 	field_value_id = getattr(obj, field_name_id)
 	field_value_up = getattr(obj, field_name)
 	field_value_down= getattr(obj, field_name_2)
 	field_value_adx= getattr(obj, field_name_adx)
+	field_value_time= getattr(obj, field_name_time)
 
 	print("field_value_id",field_value_id)
 	print("field_value_up",field_value_up)
 	print("field_value_down",field_value_down)
 	print("field_value_adx",field_value_adx)
+	print("field_value_time",field_value_time)
 	ans = 2
 
 	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
@@ -141,7 +145,7 @@ def check_s3(request):
 
 
 
-	return HttpResponse(json.dumps({'decision':ans}))
+	return HttpResponse(json.dumps({'decision':ans,'time':field_value_time}))
 def Check_both(request):
 
 	# mydata = BTC_Data.objects.last()
