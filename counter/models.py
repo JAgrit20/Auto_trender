@@ -69,6 +69,14 @@ class Stocastic_Data(models.Model):
     ADX = models.FloatField(blank=True,null= True)
     Final_call = models.FloatField(blank=True ,null= True)
     
+class Stocastic_Data_DXY(models.Model):
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+    time = models.CharField(max_length=10)
+    Stocastic_up = models.FloatField(blank=True)
+    Stocastic_down = models.FloatField(blank=True)
+    ADX = models.FloatField(blank=True,null= True)
+    Final_call = models.FloatField(blank=True ,null= True)
+    
 
 
 class Nifty_Data(models.Model):
@@ -80,3 +88,4 @@ class Nifty_Data(models.Model):
     exit_time = models.CharField(blank=True,max_length=10)
     move = models.BigIntegerField(blank=True,null=True)
     call_put = models.CharField(max_length=10,blank=True,null=True)
+    Event_type = models.CharField(max_length=10,blank=True,null=True)

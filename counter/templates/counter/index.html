@@ -30,12 +30,18 @@
 
   <!-- <h2>{{mydata}}</h2> -->
 </div>
+<div style="display: flex;justify-content: center;align-items: center; margin: 20px;">
+
+  <a href="/s4">Strategy 4</a>
+
+  <!-- <h2>{{mydata}}</h2> -->
+</div>
 
 
     <div class="container">
       <!-- {{exp_date}} -->
 
-
+<h4>Net Move: {{net_sum}}</h4>
       <table class="table table-bordered table-dark">
         <thead>
           <tr>
@@ -48,6 +54,7 @@
             <th  scope="col">Type_exit</th>
             <th  scope="col">exit_time</th>
             <th  scope="col">move</th>
+            <th  scope="col">Event_type</th>
 
           </tr>
         </thead>
@@ -57,14 +64,34 @@
 
             <th scope="row">{{ record.date|date:'Y-m-d H:i:s' }}</th>
             <!-- <td style="background-color: rgba(255, 119, 0, 0.63);">{{record.entry_time}}</td>  -->
-            <td style="background-color: rgba(255, 119, 0, 0.842);">{{record.entry_time}}</td> 
-            <td style="background-color: rgba(255, 119, 0, 0.842);">{{record.Nifty_entry}}</td> 
+            <td >{{record.entry_time}}</td> 
+            <td >{{record.Nifty_entry}}</td> 
+            <!-- {% if  record.call_put  %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.Stocastic_down}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.Stocastic_down}}</td> {% endif %}     -->
+            {% if  record.call_put == "PE" %} 
+            <td style="background-color: rgba(255, 0, 0, 0.561);">{{record.call_put}}</td> 
+          {% elif  record.call_put == "CE" %} 
+            <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.call_put}}</td> 
+          {% else %} 
+            <td>{{record.call_put}}</td> 
+          {% endif %} 
+          <td style="background-color: rgb(0, 174, 255);">{{record.Nifty_exit}}</td> 
+          {% if  record.call_put == "PE" %} 
+          <td style="background-color: rgba(255, 0, 0, 0.561);">{{record.call_put}}</td> 
+        {% elif  record.call_put == "CE" %} 
+          <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.call_put}}</td> 
+        {% else %} 
+          <td>{{record.call_put}}</td> 
+        {% endif %} 
+        <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.exit_time}}</td> 
+        <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.move}}</td> 
+        {% if  record.move > 0 %} 
+        <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.move}}</td> 
+    
+        {% else %} 
+        <td style="background-color: rgba(255, 0, 0, 0.561);">{{record.move}}</td> 
 
-            <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.call_put}}</td> 
-            <td style="background-color: rgb(0, 174, 255);">{{record.Nifty_exit}}</td> 
-            <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.call_put}}</td> 
-            <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.exit_time}}</td> 
-            <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.move}}</td> 
+      {% endif %} 
+            <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.Event_type}}</td> 
             <!-- <td>{{record.move}}</td> -->
           </tr>
           {% endfor %}

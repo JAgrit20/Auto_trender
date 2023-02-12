@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Counter, PCR_data,Telegram_data,BTC_Data,Nifty_Data,Stocastic_Data
+from .models import Counter, PCR_data,Telegram_data,BTC_Data,Nifty_Data,Stocastic_Data,Stocastic_Data_DXY
 from django.http import HttpResponse
 import json
 import requests
@@ -9,6 +9,8 @@ import datetime as dt
 import datetime
 import pytz
 import time
+from django.db.models import Sum
+import datetime
 
 
 def Check_past(request):
@@ -146,6 +148,41 @@ def check_s3(request):
 
 
 	return HttpResponse(json.dumps({'decision':ans,'time':field_value_time}))
+def check_s4(request):
+
+	obj = Stocastic_Data_DXY.objects.last()
+	
+	
+	field_name = 'Stocastic_up'
+	field_name_2 = 'Stocastic_down'
+	field_name_id = 'id'
+	field_name_adx = 'ADX'
+	field_name_time = 'time'
+	field_value_id = getattr(obj, field_name_id)
+	field_value_up = getattr(obj, field_name)
+	field_value_down= getattr(obj, field_name_2)
+	field_value_adx= getattr(obj, field_name_adx)
+	field_value_time= getattr(obj, field_name_time)
+
+	print("field_value_id",field_value_id)
+	print("field_value_up",field_value_up)
+	print("field_value_down",field_value_down)
+	print("field_value_adx",field_value_adx)
+	print("field_value_time",field_value_time)
+	ans = 2
+
+	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
+	if(field_value_up == 1 and field_value_down == 0 and field_value_adx == 1):
+		ans = 1
+	# if (field_value_rsi >=60 and ((((field_value_rsi - field_value_rsi_2)<0  and (field_value_rsi_2>= field_value_sma and field_value_sma>=field_value_rsi) )) or field_value_sma > field_value_rsi ) and field_value_rsi >=37):
+	if( field_value_up== 0 and field_value_down == 1 and field_value_adx == 1):
+		ans = 0
+		
+	Stocastic_Data_DXY.objects.filter(id =field_value_id).update(Final_call = ans)
+
+
+
+	return HttpResponse(json.dumps({'decision':ans,'time':field_value_time}))
 def Check_both(request):
 
 	# mydata = BTC_Data.objects.last()
@@ -216,29 +253,18 @@ def Check_both(request):
 
 def index(request):
 	mydata = Nifty_Data.objects.all().values()
-	
-	# url = 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY'
-	# headers = {
-	# 'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
-	# 'accept-encoding' : 'gzip, deflate, br',
-	# 'accept-language' : 'en-US,en;q=0.9'
-	# }
-	# response = requests.get(url, headers=headers).content
-	#
-	# data = json.loads(response.decode('utf-8'))
-	# nifty_exp_date = data['records']['expiryDates']
-	# if(request.GET):
-	#     print("Get dat",(request.GET['expiry']))
-	#     ind = int(request.GET['expiry'])
-	#     selected_exp =  data['records']['expiryDates'][ind-1]
-	#
-	# else:
-	#     selected_exp =  data['records']['expiryDates'][0]
-	#     print("running else" )
-	#
-	# print("nif",nifty_exp_date)
 
-	context = {'mydata':mydata}
+	today = datetime.date.today()
+
+	result = Nifty_Data.objects.filter(date__contains=today).aggregate(Sum('move'))
+
+	net_sum = result['move__sum']
+
+	# Print the result
+	print("The net sum of the 'move' column for {} is: {}".format(today, net_sum))
+	print("The net sum of the 'move' column for {} is: {}".format(today, net_sum))
+
+	context = {'mydata':mydata,'net_sum':net_sum}
 
 
 	return render(request, 'counter/index.html', context)
@@ -276,6 +302,17 @@ def strategy_3(request):
 	context = {'mydata':mydata, 'd':data }
 
 	return render(request, 'counter/Socastic.html', context)
+def strategy_4(request):
+
+	mydata = Stocastic_Data_DXY.objects.all()[:10]
+	df = pd.DataFrame(list(Stocastic_Data_DXY.objects.all().order_by('id').values()))
+	print(df)
+	json_records = df.tail(3500).reset_index().to_json(orient ='records')      
+	data = []
+	data = json.loads(json_records)
+	context = {'mydata':mydata, 'd':data }
+
+	return render(request, 'counter/Socastic_DXY.html', context)
 
 def save_data(symbol):
 

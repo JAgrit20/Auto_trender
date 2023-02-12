@@ -12,18 +12,15 @@ def getCurrentPCR(symbol):
     response = requests.get(url, headers=headers).content
     data = json.loads(response.decode('utf-8'))
     # print(data)
-    totCE = data['filtered']['CE']
-    totc = data['filtered']['CE']
-    totp = data['filtered']['CE']
-    totPE = data['filtered']['PE']['totOI']
 
-    print("totCE",totc)
-    # print("totPE",totp)
-    
-    # print(totPE/totCE)
-    return True
+    price = data['filtered']['data'][0]['PE']['underlyingValue']
 
 
-pcr = getCurrentPCR('NIFTY')
+    print("totCE",price)
 
-print('PCR = ', pcr)        
+    return price
+
+
+pcr = getCurrentPCR('BANKNIFTY')
+
+# print('price = ', pcr)        
