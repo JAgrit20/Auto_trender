@@ -48,13 +48,13 @@ def Check(request):
 	field_value_5min = getattr(obj, field_name_signal_5min)
 	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
 
-	print("field_value_signal",field_value_signal)
-	print("field_value_rsi",field_value_rsi)
-	print("field_value_id",field_value_id)
-	print("field_value_adx",field_value_adx)
+	# print("field_value_signal",field_value_signal)
+	# print("field_value_rsi",field_value_rsi)
+	# print("field_value_id",field_value_id)
+	# print("field_value_adx",field_value_adx)
 
-	print("field_value_5min",field_value_5min)
-	print("field_value_adx_5min",field_value_signal_adx_5min)
+	# print("field_value_5min",field_value_5min)
+	# print("field_value_adx_5min",field_value_signal_adx_5min)
 
 	ans=2
 	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
@@ -92,11 +92,11 @@ def check_5min(request):
 	field_value_adx = getattr(obj, field_name_adx)
 	field_value_5min = getattr(obj, field_name_signal_5min)
 
-	print("field_value_signal",field_value_signal)
-	print("field_value_rsi",field_value_rsi)
-	print("field_value_id",field_value_id)
-	print("field_value_adx",field_value_adx)
-	print("field_value_5min",field_value_5min)
+	# print("field_value_signal",field_value_signal)
+	# print("field_value_rsi",field_value_rsi)
+	# print("field_value_id",field_value_id)
+	# print("field_value_adx",field_value_adx)
+	# print("field_value_5min",field_value_5min)
 
 
 	ans = 2
@@ -129,11 +129,11 @@ def check_s3(request):
 	field_value_adx= getattr(obj, field_name_adx)
 	field_value_time= getattr(obj, field_name_time)
 
-	print("field_value_id",field_value_id)
-	print("field_value_up",field_value_up)
-	print("field_value_down",field_value_down)
-	print("field_value_adx",field_value_adx)
-	print("field_value_time",field_value_time)
+	# print("field_value_id",field_value_id)
+	# print("field_value_up",field_value_up)
+	# print("field_value_down",field_value_down)
+	# print("field_value_adx",field_value_adx)
+	# print("field_value_time",field_value_time)
 	ans = 2
 
 	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
@@ -164,11 +164,11 @@ def check_s4(request):
 	field_value_adx= getattr(obj, field_name_adx)
 	field_value_time= getattr(obj, field_name_time)
 
-	print("field_value_id",field_value_id)
-	print("field_value_up",field_value_up)
-	print("field_value_down",field_value_down)
-	print("field_value_adx",field_value_adx)
-	print("field_value_time",field_value_time)
+	# print("field_value_id",field_value_id)
+	# print("field_value_up",field_value_up)
+	# print("field_value_down",field_value_down)
+	# print("field_value_adx",field_value_adx)
+	# print("field_value_time",field_value_time)
 	ans = 2
 
 	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
@@ -179,9 +179,6 @@ def check_s4(request):
 		ans = 0
 		
 	Stocastic_Data_DXY.objects.filter(id =field_value_id).update(Final_call = ans)
-
-
-
 	return HttpResponse(json.dumps({'decision':ans,'time':field_value_time}))
 def Check_both(request):
 
@@ -208,13 +205,13 @@ def Check_both(request):
 	field_value_5min = getattr(obj, field_name_signal_5min)
 	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
 
-	print("field_value_signal",field_value_signal)
-	print("field_value_rsi",field_value_rsi)
-	print("field_value_id",field_value_id)
-	print("field_value_adx",field_value_adx)
+	# print("field_value_signal",field_value_signal)
+	# print("field_value_rsi",field_value_rsi)
+	# print("field_value_id",field_value_id)
+	# print("field_value_adx",field_value_adx)
 
-	print("field_value_5min",field_value_5min)
-	print("field_value_adx_5min",field_value_signal_adx_5min)
+	# print("field_value_5min",field_value_5min)
+	# print("field_value_adx_5min",field_value_signal_adx_5min)
 
 	# field_value_rsi = float(field_value_rsi)
 	# field_value_sma = float(field_value_sma)
@@ -261,8 +258,8 @@ def index(request):
 	net_sum = result['move__sum']
 
 	# Print the result
-	print("The net sum of the 'move' column for {} is: {}".format(today, net_sum))
-	print("The net sum of the 'move' column for {} is: {}".format(today, net_sum))
+	# print("The net sum of the 'move' column for {} is: {}".format(today, net_sum))
+	# print("The net sum of the 'move' column for {} is: {}".format(today, net_sum))
 
 	context = {'mydata':mydata,'net_sum':net_sum}
 
@@ -284,7 +281,7 @@ def strategy_2(request):
 	df.ta.sma(close='RSI', length=7, append=True)
 
 	# df.ta.sma(close='RSI', length=20, append=True)
-	print(df)
+	# print(df)
 	json_records = df.tail(3500).reset_index().to_json(orient ='records')      
 	data = []
 	data = json.loads(json_records)
@@ -295,7 +292,7 @@ def strategy_3(request):
 
 	mydata = Stocastic_Data.objects.all()[:10]
 	df = pd.DataFrame(list(Stocastic_Data.objects.all().order_by('id').values()))
-	print(df)
+	# print(df)
 	json_records = df.tail(3500).reset_index().to_json(orient ='records')      
 	data = []
 	data = json.loads(json_records)
@@ -306,7 +303,7 @@ def strategy_4(request):
 
 	mydata = Stocastic_Data_DXY.objects.all()[:10]
 	df = pd.DataFrame(list(Stocastic_Data_DXY.objects.all().order_by('id').values()))
-	print(df)
+	# print(df)
 	json_records = df.tail(3500).reset_index().to_json(orient ='records')      
 	data = []
 	data = json.loads(json_records)
@@ -317,7 +314,7 @@ def strategy_4(request):
 def save_data(symbol):
 
 	dtobj1=datetime.datetime.utcnow()   #utcnow class method
-	print(dtobj1)
+	# print(dtobj1)
 
 	dtobj3=dtobj1.replace(tzinfo=pytz.UTC) #replace method
 

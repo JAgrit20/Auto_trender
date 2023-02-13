@@ -49,7 +49,7 @@ def taskDetail(request, pk):
 def taskCreate(request):
 
 	objs = BTC_Data.objects.last()
-	print("request.data",request.data)
+	# print("request.data",request.data)
 	if(request.data['title']=="BUY"):
 		# objs.signal = 1
 		last_obj = BTC_Data.objects.last()
@@ -84,12 +84,12 @@ def taskCreate(request):
 	field_value_5min = getattr(obj, field_name_signal_5min)
 	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
 
-	print("field_value_signal",field_value_signal)
-	print("field_value_rsi",field_value_rsi)
-	print("field_value_id",field_value_id)
-	print("field_value_adx",field_value_adx)
-	print("field_value_5min",field_value_5min)
-	print("field_value_adx_5min",field_value_signal_adx_5min)
+	# print("field_value_signal",field_value_signal)
+	# print("field_value_rsi",field_value_rsi)
+	# print("field_value_id",field_value_id)
+	# print("field_value_adx",field_value_adx)
+	# print("field_value_5min",field_value_5min)
+	# print("field_value_adx_5min",field_value_signal_adx_5min)
 
 	ans = 2
 
@@ -143,13 +143,13 @@ def taskCreate_data(request):
 	field_value_5min = getattr(obj, field_name_signal_5min)
 	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
 
-	print("field_value_signal",field_value_signal)
-	print("field_value_rsi",field_value_rsi)
-	print("field_value_id",field_value_id)
-	print("field_value_adx",field_value_adx)
+	# print("field_value_signal",field_value_signal)
+	# print("field_value_rsi",field_value_rsi)
+	# print("field_value_id",field_value_id)
+	# print("field_value_adx",field_value_adx)
 
-	print("field_value_5min",field_value_5min)
-	print("field_value_adx_5min",field_value_signal_adx_5min)
+	# print("field_value_5min",field_value_5min)
+	# print("field_value_adx_5min",field_value_signal_adx_5min)
 
 	ans = 2
 	ans2 = 2
@@ -174,7 +174,7 @@ def taskCreate_data(request):
 @api_view(['POST'])
 def taskCreate_data_5min(request):
 	objs = BTC_Data.objects.last()
-	print("request.data",request.data)
+	# print("request.data",request.data)
 	if(request.data['title']=="BUY"):
 		# objs.signal = 1
 		last_obj = BTC_Data.objects.last()
@@ -207,13 +207,13 @@ def taskCreate_data_5min(request):
 	field_value_5min = getattr(obj, field_name_signal_5min)
 	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
 
-	print("field_value_signal",field_value_signal)
-	print("field_value_rsi",field_value_rsi)
-	print("field_value_id",field_value_id)
-	print("field_value_adx",field_value_adx)
+	# print("field_value_signal",field_value_signal)
+	# print("field_value_rsi",field_value_rsi)
+	# print("field_value_id",field_value_id)
+	# print("field_value_adx",field_value_adx)
 
-	print("field_value_5min",field_value_5min)
-	print("field_value_adx_5min",field_value_signal_adx_5min)
+	# print("field_value_5min",field_value_5min)
+	# print("field_value_adx_5min",field_value_signal_adx_5min)
 
 
 	ans = 2
@@ -237,15 +237,9 @@ def taskCreate_data_5min(request):
 
 @api_view(['POST'])
 def taskCreate_adx(request):
-	# print("data",request.data)
-	# req_data = request.get_json(force=True)
-	# print("json data",req_data)
-	# request_body = request.data.decode('utf-8')	
-	# data = json.loads(request_body)
-	# print("json data",data)
-	
+
 	objs = BTC_Data.objects.last()
-	print("request.data",request.data)
+	# print("request.data",request.data)
 	if(request.data['title']=="BUY"):
 		# objs.signal = 1
 		last_obj = BTC_Data.objects.last()
@@ -280,13 +274,13 @@ def taskCreate_adx(request):
 	field_value_5min = getattr(obj, field_name_signal_5min)
 	field_value_signal_adx_5min = getattr(obj, field_name_signal_adx_5min)
 
-	print("field_value_signal",field_value_signal)
-	print("field_value_rsi",field_value_rsi)
-	print("field_value_id",field_value_id)
-	print("field_value_adx",field_value_adx)
+	# print("field_value_signal",field_value_signal)
+	# print("field_value_rsi",field_value_rsi)
+	# print("field_value_id",field_value_id)
+	# print("field_value_adx",field_value_adx)
 
-	print("field_value_5min",field_value_5min)
-	print("field_value_adx_5min",field_value_signal_adx_5min)
+	# print("field_value_5min",field_value_5min)
+	# print("field_value_adx_5min",field_value_signal_adx_5min)
 
 	ans = 2
 	ans2 = 2
@@ -312,7 +306,7 @@ def taskCreate_RSI(request):
 	
 	field_name_signal = 'RSI'
 	objs = BTC_Data.objects.last()
-	print("request.data",request.data)
+	# print("request.data",request.data)
 	if(request.data['title']=="BUY"):
 		# objs.signal = 1
 		last_obj = BTC_Data.objects.last()
@@ -477,10 +471,10 @@ def taskCreate_data_stocastic_up(request):
 	field_value_down= getattr(obj, field_name_2)
 	field_value_adx= getattr(obj, field_name_adx)
 
-	print("field_value_id",field_value_id)
-	print("field_value_up",field_value_up)
-	print("field_value_down",field_value_down)
-	print("field_value_adx",field_value_adx)
+	# print("field_value_id",field_value_id)
+	# print("field_value_up",field_value_up)
+	# print("field_value_down",field_value_down)
+	# print("field_value_adx",field_value_adx)
 
 	ans = 2
 
@@ -515,10 +509,10 @@ def taskCreate_data_stocastic_ADX(request):
 	field_value_down= getattr(obj, field_name_2)
 	field_value_adx= getattr(obj, field_name_adx)
 
-	print("field_value_id",field_value_id)
-	print("field_value_up",field_value_up)
-	print("field_value_down",field_value_down)
-	print("field_value_adx",field_value_adx)
+	# print("field_value_id",field_value_id)
+	# print("field_value_up",field_value_up)
+	# print("field_value_down",field_value_down)
+	# print("field_value_adx",field_value_adx)
 
 	if(request.data['title']=="BUY"):
 		Stocastic_Data.objects.filter(id =field_value_id).update(ADX = 1)
@@ -539,10 +533,10 @@ def taskCreate_data_stocastic_ADX(request):
 	field_value_down= getattr(obj, field_name_2)
 	field_value_adx= getattr(obj, field_name_adx)
 
-	print("field_value_id",field_value_id)
-	print("field_value_up",field_value_up)
-	print("field_value_down",field_value_down)
-	print("field_value_adx",field_value_adx)
+	# print("field_value_id",field_value_id)
+	# print("field_value_up",field_value_up)
+	# print("field_value_down",field_value_down)
+	# print("field_value_adx",field_value_adx)
 	ans = 2
 
 	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
@@ -590,10 +584,10 @@ def taskCreate_data_stocastic_up_DXY(request):
 	field_value_down= getattr(obj, field_name_2)
 	field_value_adx= getattr(obj, field_name_adx)
 
-	print("field_value_id",field_value_id)
-	print("field_value_up",field_value_up)
-	print("field_value_down",field_value_down)
-	print("field_value_adx",field_value_adx)
+	# print("field_value_id",field_value_id)
+	# print("field_value_up",field_value_up)
+	# print("field_value_down",field_value_down)
+	# print("field_value_adx",field_value_adx)
 
 	ans = 2
 
@@ -628,10 +622,10 @@ def taskCreate_data_stocastic_ADX_DXY(request):
 	field_value_down= getattr(obj, field_name_2)
 	field_value_adx= getattr(obj, field_name_adx)
 
-	print("field_value_id",field_value_id)
-	print("field_value_up",field_value_up)
-	print("field_value_down",field_value_down)
-	print("field_value_adx",field_value_adx)
+	# print("field_value_id",field_value_id)
+	# print("field_value_up",field_value_up)
+	# print("field_value_down",field_value_down)
+	# print("field_value_adx",field_value_adx)
 
 	if(request.data['title']=="BUY"):
 		Stocastic_Data_DXY.objects.filter(id =field_value_id).update(ADX = 1)
@@ -652,10 +646,10 @@ def taskCreate_data_stocastic_ADX_DXY(request):
 	field_value_down= getattr(obj, field_name_2)
 	field_value_adx= getattr(obj, field_name_adx)
 
-	print("field_value_id",field_value_id)
-	print("field_value_up",field_value_up)
-	print("field_value_down",field_value_down)
-	print("field_value_adx",field_value_adx)
+	# print("field_value_id",field_value_id)
+	# print("field_value_up",field_value_up)
+	# print("field_value_down",field_value_down)
+	# print("field_value_adx",field_value_adx)
 	ans = 2
 
 	# if(field_value_rsi<=40 and (((field_value_rsi - field_value_rsi_2)>0  and field_value_rsi>= field_value_sma and field_value_sma>=field_value_rsi_2) or  field_value_sma <field_value_rsi ) and ((field_value_rsi <=60  ) or field_value_sma <field_value_rsi)   ):
