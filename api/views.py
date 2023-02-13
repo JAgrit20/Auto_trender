@@ -13,6 +13,8 @@ import math
 import json
 import requests
 import pandas as pd
+from fyers_api import fyersModel
+import json
 
 
 from .models import Task
@@ -715,6 +717,20 @@ def getCurrentPCR(symbol):
     return price
 
 
+def get_stike_price():
+	tokenFile = open('./store_token.json')
+	tokenJson = json.load(tokenFile)
+	access_Token = tokenJson['access_token']
+
+	# apiCredFile = open("./api")
+	ClientID = "TU9RDXY8QS-100"
+
+	fyers = fyersModel.FyersModel(client_id=ClientID, token= access_Token)
+	symbol = {'symbols': 'NSE:NIFTYBANK-INDEX'}
+	data=(fyers.quotes(symbol))
+	print(data['d'][0]['v']['ask'])
+	price = data['d'][0]['v']['ask']
+	return price
 
 
 
@@ -724,7 +740,7 @@ def Nifty_Create_buy(request):
 	print("data_nifty",data)
 
 	# serializer = Nifty_DataSerializer(data=request.data) 
-	spot = getCurrentPCR('BANKNIFTY')
+	spot = get_stike_price()
 	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
 	# print(dtobj1)
 	dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
@@ -755,7 +771,7 @@ def Nifty_Create_sell(request):
 	print("data_nifty",data)
 
 	# serializer = Nifty_DataSerializer(data=request.data) 
-	spot = getCurrentPCR('BANKNIFTY')
+	spot = get_stike_price()
 	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
 	# print(dtobj1)
 	dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
@@ -800,7 +816,7 @@ def Nifty_Create_sell_exit(request):
 	print("data_nifty",data)
 
 	# serializer = Nifty_DataSerializer(data=request.data) 
-	spot = getCurrentPCR('BANKNIFTY')
+	spot = get_stike_price()
 	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
 	# print(dtobj1)
 	dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
@@ -833,7 +849,7 @@ def Nifty_Create_sell_exit(request):
 def Nifty_Create_exit(request):
 
 	# serializer = Nifty_DataSerializer(data=request.data) 
-	spot = getCurrentPCR('BANKNIFTY')
+	spot = get_stike_price()
 
 	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
 	# print(dtobj1)

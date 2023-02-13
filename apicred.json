@@ -1,0 +1,6 @@
+{
+    "ClientID":"TU9RDXY8QS-100",
+    "AppID":"TU9RDXY8QS-100",
+    "SecretID":"9FL2VROLMN",
+    "RedirectURI":"http://127.0.0.1:8000/api/fyers_success"
+}
