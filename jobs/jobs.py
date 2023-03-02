@@ -164,8 +164,16 @@ def Telegram_data():
 	dtobj_india = dtobj_india.strftime("%H:%M")
 	dtobj_indiaa = str(dtobj_india)
 	print("count", count)
-	if(count >= 40):
-		prev_spot = spot
+	field_value_signal = 0
+	try:
+		field_name = 'Nifty_strike'
+		obj = Vwap_Telegram_data.objects.last()
+		field_value_signal = getattr(obj, field_name)
+	except:
+		pass
+	if(count >= 4):
+		# prev_spot = spot
+		prev_spot = field_value_signal
 		spot = float(nifty_val)
 		b = float(spot/100)
 		b = float(b)
@@ -177,7 +185,8 @@ def Telegram_data():
 		ans = Telegram_data_entry.save()
 
 	if(count <= 10):
-		spot = float(nifty_val)
+		# spot = float(nifty_val)
+		prev_spot = field_value_signal
 		b = float(spot/100)
 		b = float(b)
 		c = math.floor(b)
