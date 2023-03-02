@@ -183,6 +183,7 @@ def Telegram_data():
 		Telegram_data_entry = Vwap_Telegram_data(time=dtobj_indiaa,Nifty_strike=nifty_val,entry_price= d,exit_price=0,Count=count,type_of_option="PUT",net_point_captured=prev_spot-spot)
 		# Send_high()
 		ans = Telegram_data_entry.save()
+		print("ans",ans)
 		print("data added CALL")
 
 	if(count <= 10):
