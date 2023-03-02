@@ -398,7 +398,7 @@ def strategy_5(request):
 		field_value_signal = getattr(obj, field_name)
 	except:
 		pass
-	if(count >= 13):
+	if(count >= 40):
 		
 		prev_spot = field_value_signal
 		spot = float(nifty_val)

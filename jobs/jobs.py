@@ -104,6 +104,7 @@ def Telegram_data():
 	}
 	response = requests.get(url, headers=headers).content
 	data = json.loads(response)
+	count = 0
 	nifty_val = 0
 	nifty_val = data['filtered']['data'][0]['PE']['underlyingValue']
 	print("nifty_val", nifty_val)
