@@ -164,7 +164,7 @@ def Telegram_data():
 	dtobj_india = dtobj_india.strftime("%H:%M")
 	dtobj_indiaa = str(dtobj_india)
 	print("count", count)
-	if(count >= 4):
+	if(count >= 40):
 		prev_spot = spot
 		spot = float(nifty_val)
 		b = float(spot/100)
