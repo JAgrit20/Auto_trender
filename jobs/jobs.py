@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from counter.models import Counter, PCR_data, PCR_data_past,BTC_Data
+from counter.models import Counter, Vwap_Telegram_data,PCR_data, PCR_data_past,BTC_Data
 from django.http import HttpResponse
 import json
 import requests
@@ -15,6 +15,8 @@ import pandas as pd
 import datetime
 import pandas_ta as ta
 import sys, os
+import math
+from bs4 import BeautifulSoup
 
 
 
@@ -86,6 +88,7 @@ def Send_low():
 
 
 def Telegram_data():
+	print("Running VWAP")
 
 	print("Telegram_data add")
 	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
@@ -100,15 +103,12 @@ def Telegram_data():
 		'accept-language': 'en-US,en;q=0.9'
 	}
 	response = requests.get(url, headers=headers).content
-	data = json.loads(response.decode('utf-8'))
+	data = json.loads(response)
 	nifty_val = 0
 	nifty_val = data['filtered']['data'][0]['PE']['underlyingValue']
 	print("nifty_val", nifty_val)
 
 	for i in range(len(stockcode)):
-    		
-			
-
 			try:
 				stock_url = 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=' + \
 					str(stockcode[i])
@@ -155,32 +155,36 @@ def Telegram_data():
 				#   # print("small")
 			except Exception as e:
 				print("ERROR : "+str(e))
-
-	print("count", count)
-	if(count >= 40):
-		Send_high()
-	if(count <= 10):
-		Send_low()
-	counter = counter + 1
-	print(counter)
+	
 	dtobj1 = datetime.datetime.utcnow()  # utcnow class method
-
-		# print(dtobj1)
 	dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
-
-		# print(pytz.all_timezones) => To see all timezones
 	dtobj_india = dtobj3.astimezone(pytz.timezone("Asia/Calcutta"))  # astimezone method
 	print("India time data_add", dtobj_india)
 	dtobj_india = dtobj_india.strftime("%H:%M")
 	dtobj_indiaa = str(dtobj_india)
-	# datetime_ist = datetime.now(IST)
-	# print(datetime_ist.strftime('%Y:%m:%d %H:%M:%S %Z %z'))
-	ans = Telegram_data.objects.latest('id')
-	nift_prev = ans['Nifty_new']
-	Telegram_data_entry = Telegram_data(time=dtobj_indiaa,Nifty_prev=nift_prev,Nifty_new= nifty_val,Count=count)
-	# Telegram_data_entry2 = PCR_data_past(time=dtobj_indiaa, call=tol_CE_vol, put=tol_PE_vol, pcrOI=pcrOI, diffOI=diffOI,
-	# 									 diff=diff, pcr=pcr, price=nifty_val, option_signal=signal, callOI=totCE, putOI=totPE)
+	print("count", count)
+	if(count >= 40):
+		prev_spot = spot
+		spot = float(nifty_val)
+		b = float(spot/100)
+		b = float(b)
+		c = math.floor(b)
+		d = float((c+1 )*100)
+		e = float((c-1 )*100)
+		Telegram_data_entry = Vwap_Telegram_data(time=dtobj_indiaa,Nifty_strike=nifty_val,entry_price= d,exit_price=0,Count=count,type_of_option="PUT",net_point_captured=prev_spot-spot)
+		# Send_high()
+		ans = Telegram_data_entry.save()
 
+	if(count <= 10):
+		spot = float(nifty_val)
+		b = float(spot/100)
+		b = float(b)
+		c = math.floor(b)
+		d = float((c+1 )*100)
+		e = float((c-1 )*100)
+		Telegram_data_entry = Vwap_Telegram_data(time=dtobj_indiaa,Nifty_strike=nifty_val,entry_price= e,exit_price=0,Count=count,type_of_option="CALL",net_point_captured=prev_spot-spot)
+		# Send_low()
+		ans = Telegram_data_entry.save()
 
 def schedule_api():
 	try:

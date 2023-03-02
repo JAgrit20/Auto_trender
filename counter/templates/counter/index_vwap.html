@@ -7,7 +7,7 @@
     <meta http-equiv="refresh" content="60" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <title>Auto trender</title>
+    <title>vwaP</title>
   </head>
   <body>
 <!-- <p>There have been {{ totPE2 }} views.</p> -->
@@ -36,69 +36,45 @@
 
   <!-- <h2>{{mydata}}</h2> -->
 </div>
-<div style="display: flex;justify-content: center;align-items: center; margin: 20px;">
-
-  <a href="/s5">vwap Strategy 5</a>
-
-  <!-- <h2>{{mydata}}</h2> -->
-</div>
 
 
     <div class="container">
       <!-- {{exp_date}} -->
 
-<h4>Net Move: {{net_sum}}</h4>
+
       <table class="table table-bordered table-dark">
         <thead>
           <tr>
 
             <th  scope="col">record_time</th>
-            <th  scope="col">entry_time</th>
-            <th  scope="col">Nifty_entry  </th>
-            <th  scope="col">Type__entry  </th>
-            <th  scope="col">Nifty_exit</th>
-            <th  scope="col">Type_exit</th>
-            <th  scope="col">exit_time</th>
-            <th  scope="col">move</th>
-            <th  scope="col">Event_type</th>
+            <th  scope="col">Count</th>
+            <th  scope="col">Nifty_strike  </th>
+            <th  scope="col">entry_price  </th>
+            <th  scope="col">exit_price</th>
+            <th  scope="col">type_of_option</th>
+            <th  scope="col">net_point_captured</th>
+
 
           </tr>
         </thead>
         <tbody>
           {% for record in mydata %} 
           <tr>
-
-            <th scope="row">{{ record.date|date:'Y-m-d H:i:s' }}</th>
+            <th scope="row">{{ record.date_time|date:'Y-m-d H:i:s' }}</th>
             <!-- <td style="background-color: rgba(255, 119, 0, 0.63);">{{record.entry_time}}</td>  -->
-            <td >{{record.entry_time}}</td> 
-            <td >{{record.Nifty_entry}}</td> 
+            <td >{{record.Count}}</td> 
+            <td >{{record.Nifty_strike}}</td> 
+            <td >{{record.entry_price}}</td> 
+            <td >{{record.exit_price}}</td> 
             <!-- {% if  record.call_put  %}<td  style="background-color: rgba(0, 255, 38, 0.561);">{{i.Stocastic_down}}</td> {% else %} <td  style="background-color: rgba(255, 0, 0, 0.561);">{{i.Stocastic_down}}</td> {% endif %}     -->
-            {% if  record.call_put == "PE" %} 
-            <td style="background-color: rgba(255, 0, 0, 0.561);">{{record.call_put}}</td> 
-          {% elif  record.call_put == "CE" %} 
-            <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.call_put}}</td> 
+            {% if  record.type_of_option == "PUT" %} 
+            <td style="background-color: rgba(255, 0, 0, 0.561);">{{record.type_of_option}}</td> 
+          {% elif  record.type_of_option == "CALL" %} 
+            <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.type_of_option}}</td> 
           {% else %} 
-            <td>{{record.call_put}}</td> 
+            <td>{{record.type_of_option}}</td> 
           {% endif %} 
-          <td style="background-color: rgb(0, 174, 255);">{{record.Nifty_exit}}</td> 
-          {% if  record.call_put == "PE" %} 
-          <td style="background-color: rgba(255, 0, 0, 0.561);">{{record.call_put}}</td> 
-        {% elif  record.call_put == "CE" %} 
-          <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.call_put}}</td> 
-        {% else %} 
-          <td>{{record.call_put}}</td> 
-        {% endif %} 
-        <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.exit_time}}</td> 
-        <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.move}}</td> 
-        {% if  record.move > 0 %} 
-        <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.move}}</td> 
-    
-        {% else %} 
-        <td style="background-color: rgba(255, 0, 0, 0.561);">{{record.move}}</td> 
-
-      {% endif %} 
-            <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.Event_type}}</td> 
-            <!-- <td>{{record.move}}</td> -->
+            <td style="background-color: rgba(0, 255, 38, 0.561);">{{record.net_point_captured}}</td> 
           </tr>
           {% endfor %}
 

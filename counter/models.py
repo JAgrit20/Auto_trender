@@ -17,15 +17,19 @@ class PCR_data(models.Model):
     pcrOI = models.FloatField()
     option_signal = models.CharField(max_length=10)
     price = models.BigIntegerField()
-class Telegram_data(models.Model):
+class Vwap_Telegram_data(models.Model):
+
     date_time = models.DateTimeField(auto_now_add=True, blank=True)
     time = models.CharField(max_length=10)
-    Nifty_prev = models.FloatField()
-    Nifty_new = models.FloatField()
     Count = models.BigIntegerField()
-    RSI = models.FloatField()
-    Color_code = models.CharField(max_length=10)
-    final_signal = models.CharField(max_length=10)
+    Nifty_strike = models.FloatField()
+    entry_price = models.FloatField()
+    exit_price = models.FloatField()
+    type_of_option =models.CharField(max_length=10)
+    net_point_captured = models.FloatField()
+
+
+
 
 class Telegram_data_past(models.Model):
     date_time = models.DateTimeField(auto_now_add=True, blank=True)
