@@ -183,6 +183,7 @@ def Telegram_data():
 		Telegram_data_entry = Vwap_Telegram_data(time=dtobj_indiaa,Nifty_strike=nifty_val,entry_price= d,exit_price=0,Count=count,type_of_option="PUT",net_point_captured=prev_spot-spot)
 		# Send_high()
 		ans = Telegram_data_entry.save()
+		print("data added CALL")
 
 	if(count <= 10):
 		# spot = float(nifty_val)
@@ -195,6 +196,8 @@ def Telegram_data():
 		Telegram_data_entry = Vwap_Telegram_data(time=dtobj_indiaa,Nifty_strike=nifty_val,entry_price= e,exit_price=0,Count=count,type_of_option="CALL",net_point_captured=prev_spot-spot)
 		# Send_low()
 		ans = Telegram_data_entry.save()
+		print("data added PUT")
+
 
 def schedule_api():
 	try:

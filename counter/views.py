@@ -268,6 +268,19 @@ def index(request):
 
 
 	return render(request, 'counter/index.html', context)
+def index_vwap(request):
+	mydata = Vwap_Telegram_data.objects.all()[:10]
+	df = pd.DataFrame(list(Vwap_Telegram_data.objects.all().order_by('id').values()))
+	# print(df)
+	json_records = df.tail(3500).reset_index().to_json(orient ='records')      
+	data = []
+	data = json.loads(json_records)
+	context = {'mydata':mydata, 'd':data }
+
+	return render(request, 'counter/index_vwap.html', context)
+
+
+	# return render(request, 'counter/index.html', context)
 
 def strategy_2(request):
 
