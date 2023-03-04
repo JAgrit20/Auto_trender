@@ -88,14 +88,23 @@ CSRF_TRUSTED_ORIGINS=['https://*.onescorpion.tech']
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'Whatsapp_dashboard', 
+        'USER': 'doadmin', 
+        'PASSWORD': 'AVNS_rTB-YSzM3_a_wg5QVE2',
+        'HOST': 'dbaas-db-7476650-do-user-13222169-0.b.db.ondigitalocean.com', 
+        'PORT': '25060',
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 

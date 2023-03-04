@@ -91,5 +91,6 @@ class Nifty_Data(models.Model):
     Nifty_exit = models.FloatField(blank=True)
     exit_time = models.CharField(blank=True,max_length=10)
     move = models.BigIntegerField(blank=True,null=True)
+    counter_nifty_data = models.CharField(max_length=10,blank=True,null=True)
     call_put = models.CharField(max_length=10,blank=True,null=True)
     Event_type = models.CharField(max_length=10,blank=True,null=True)
